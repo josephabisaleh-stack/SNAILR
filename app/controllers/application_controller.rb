@@ -8,14 +8,23 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  protected
-  
-  def configure_permitted_parameters
-    # For additional fields in app/views/devise/registrations/new.html.erb
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :display_name])
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-    # For additional in app/views/devise/registrations/edit.html.erb
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :display_name])
+  def configure_permitted_parameters
+    # On autorise les 3 champs pour l'inscription
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name display_name])
+
+    # On les autorise aussi pour la mise à jour du profil
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name display_name])
   end
 
+  protected
+
+  def configure_permitted_parameters
+    # For additional fields in app/views/devise/registrations/new.html.erb
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name display_name])
+
+    # For additional in app/views/devise/registrations/edit.html.erb
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name display_name])
+  end
 end

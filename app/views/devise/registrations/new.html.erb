@@ -1,33 +1,64 @@
-<h2>Sign up</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+      <div class="card shadow-sm border-0 p-4">
+        <h2 class="text-center mb-4">Créer mon profil Coach 🚀</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :first_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "first name" }%>
-    <%= f.input :last_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "last name" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-6">
+                <%= f.input :first_name,
+                            label: "Prénom",
+                            required: true,
+                            autofocus: true,
+                            placeholder: "Jean",
+                            input_html: { autocomplete: "given-name" }%>
+              </div>
+              <div class="col-6">
+                <%= f.input :last_name,
+                            label: "Nom",
+                            required: true,
+                            placeholder: "Dupont",
+                            input_html: { autocomplete: "family-name" }%>
+              </div>
+            </div>
+
+            <%= f.input :display_name,
+                        label: "Pseudo (nom d'affichage)",
+                        required: true,
+                        placeholder: "Coach_Master_99",
+                        hint: "C'est le nom que ton coach utilisera dans le chat.",
+                        input_html: { autocomplete: "username" }%>
+
+            <%= f.input :email,
+                        required: true,
+                        placeholder: "jean.dupont@email.com",
+                        input_html: { autocomplete: "email" }%>
+
+            <%= f.input :password,
+                        label: "Mot de passe",
+                        required: true,
+                        hint: ("#{@minimum_password_length} caractères minimum" if @minimum_password_length),
+                        input_html: { autocomplete: "new-password" } %>
+
+            <%= f.input :password_confirmation,
+                        label: "Confirme ton mot de passe",
+                        required: true,
+                        input_html: { autocomplete: "new-password" } %>
+          </div>
+
+          <div class="form-actions mt-4">
+            <%= f.button :submit, "Lancer mon coaching", class: "btn btn-primary w-100 py-2 shadow-sm" %>
+          </div>
+        <% end %>
+
+        <div class="text-center mt-3">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
