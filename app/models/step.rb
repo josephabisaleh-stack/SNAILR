@@ -4,6 +4,8 @@ class Step < ApplicationRecord
   validates :done, inclusion: { in: [false, true] }
   validates :position, numericality: { greater_than_or_equal_to: 1 }
 
+  scope :done, -> { where(done: true) }
+
   def mark_step_as_done
     self.done = true
   end
