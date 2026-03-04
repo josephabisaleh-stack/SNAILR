@@ -16,7 +16,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_100517) do
 
   create_table "chats", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.bigint "objective_id", null: false
+    t.bigint "objective_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["objective_id"], name: "index_chats_on_objective_id"
