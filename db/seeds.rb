@@ -76,7 +76,7 @@ Step.create!(
   done: true,
   position: 1,
   title: "Buy a bike",
-  xp_reward: 0
+  xp_reward: 10
 )
 
 Step.create!(
@@ -84,7 +84,7 @@ Step.create!(
   done: false,
   position: 2,
   title: "Lose 5 kilogrammes",
-  xp_reward: 0
+  xp_reward: 300
 )
 
 Step.create!(
@@ -92,7 +92,7 @@ Step.create!(
   done: false,
   position: 3,
   title: "Stop going to restaurant all the time",
-  xp_reward: 0
+  xp_reward: 250
 )
 
 Step.create!(
@@ -100,7 +100,7 @@ Step.create!(
   done: false,
   position: 4,
   title: "Wake up at 5 am to exercise",
-  xp_reward: 0
+  xp_reward: 800
 )
 
 Step.create!(
@@ -108,7 +108,7 @@ Step.create!(
   done: false,
   position: 5,
   title: "Spike the opponents' tires",
-  xp_reward: 0
+  xp_reward: 5
 )
 
 joseph.update!(total_xp: joseph.total_xp + objective.steps.done.sum(:xp_reward))

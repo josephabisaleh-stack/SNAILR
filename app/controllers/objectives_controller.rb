@@ -8,7 +8,8 @@ class ObjectivesController < ApplicationController
 
   def show
     @chat = @objective.chat
-    @message = @chat.messages.new
+
+    @message = @chat.messages.new if @chat
   end
 
   # def new
