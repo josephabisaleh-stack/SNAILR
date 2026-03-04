@@ -1,4 +1,13 @@
 class MessagesController < ApplicationController
+  TITLE_PROMPT = <<~PROMPT
+    Generate a short, clear title in English (max 6 words) that captures the user's goal.
+    Reply with ONLY the title, nothing else. No quotes, no punctuation at the end.
+    Examples:
+    - User: "Je veux apprendre à coder" → Learn to Code
+    - User: "I want to run a marathon" → Run a Marathon
+    - User: "Perdre 10kg avant l'été" → Lose 10kg Before Summer
+  PROMPT
+
   SYSTEM_PROMPT = <<~PROMPT
     You are an elite Performance Coach specializing in behavioral science. Your goal is to transform the user's broad long-term objective into a high-precision execution plan.
 
@@ -66,6 +75,12 @@ class MessagesController < ApplicationController
     @message.role = "user"
 
     if @message.save
+      # Generate a smart English title from the user's first message
+      if @objective.title.blank?
+        title_response = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(TITLE_PROMPT).ask(@message.content)
+        @objective.update!(title: title_response.content.strip.delete('"'))
+      end
+
       ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
 
       # Replay previous messages so the LLM has full conversation context

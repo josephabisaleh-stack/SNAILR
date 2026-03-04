@@ -17,13 +17,13 @@
   <header class="header">
     <div>
       <div class="header-title">Your Progression Path</div>
-      <div class="header-sub">Un voyage de d&#233;couverte et de ma&#238;trise
+      <div class="header-sub">A journey of discovery and mastery
 
         <%= @objective.title %>
 
       </div>
     </div>
-    <div class="scroll-hint">D&#233;filer</div>
+    <div class="scroll-hint">Scroll</div>
   </header>
 
   <div class="progress-dots" id="progressDots">
@@ -89,8 +89,8 @@
         </defs>
       </svg>
     </div>
-    <div class="finale-title">Accomplissement</div>
-    <div class="finale-sub">Un voyage de d&#233;couverte et de ma&#238;trise</div>
+    <div class="finale-title">Achievement</div>
+    <div class="finale-sub">A journey of discovery and mastery</div>
   </div>
 
 </div>
@@ -117,11 +117,11 @@ const tooltip=document.getElementById('tooltip');
 const ttTitle=document.getElementById('tt-title');
 const ttBody=document.getElementById('tt-body');
 const stageData={
-  1:{title:'Initiation — La Graine',body:'Premier éveil. Le voyage commence ici.'},
-  2:{title:'Apprentissage',body:'Cultiver la connaissance par la pratique.'},
-  3:{title:'Expansion',body:'Élargir les horizons, repousser les limites.'},
-  4:{title:'Maîtrise',body:"L'excellence forgée par l'expérience."},
-  5:{title:'Accomplissement',body:'Transcendance. Le sommet est atteint.'}
+  1:{title:'Initiation — The Seed',body:'First awakening. The journey begins here.'},
+  2:{title:'Learning',body:'Cultivating knowledge through practice.'},
+  3:{title:'Expansion',body:'Expanding horizons, pushing limits.'},
+  4:{title:'Mastery',body:'Excellence forged through experience.'},
+  5:{title:'Achievement',body:'Transcendence. The summit is reached.'}
 };
 document.querySelectorAll('.node').forEach(n=>{
   n.addEventListener('mouseenter',()=>{
