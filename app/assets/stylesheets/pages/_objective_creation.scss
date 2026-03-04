@@ -1,0 +1,200 @@
+// Objective creation page — matches landing page style
+
+.creation-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFFFFF 0%, #F7F6F2 40%, #EDE9E1 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.5rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(237,233,225,0.8) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -60px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220,215,205,0.6) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.creation-container {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+  padding-top: 1rem;
+}
+
+// Chat bubbles
+.creation-chat {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chat-bubble {
+  padding: 1rem 1.25rem;
+  border-radius: 20px;
+  font-family: $body-font;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #1C1C1A;
+
+  p {
+    margin: 0 0 0.5rem;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  ul, ol {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: $headers-font;
+    font-weight: 700;
+    margin: 0.75rem 0 0.5rem;
+    &:first-child { margin-top: 0; }
+  }
+
+  h3 { font-size: 1rem; }
+  h4 { font-size: 0.9rem; }
+}
+
+.chat-user {
+  align-self: flex-end;
+  background: #1C1C1A;
+  color: #FAFAF8;
+  border-radius: 20px 20px 6px 20px;
+  max-width: 85%;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.chat-assistant {
+  align-self: flex-start;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 20px 20px 20px 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(6px);
+}
+
+// Form
+.creation-form {
+  width: 100%;
+
+  .creation-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    border: 1.5px solid rgba(0, 0, 0, 0.10);
+    background: rgba(255, 255, 255, 0.7);
+    font-family: $body-font;
+    font-size: 0.95rem;
+    color: #1C1C1A;
+    outline: none;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: #A8A49E;
+    }
+
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.20);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  // Hide simple_form wrapper label and hints
+  .form-group {
+    margin-bottom: 0.85rem;
+  }
+
+  .btn-cta {
+    width: 100%;
+  }
+}
+
+// Confirm button
+.creation-confirm {
+  width: 100%;
+
+  .btn-confirm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+    font-family: $body-font;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #4A7C59 0%, #3D6B4A 100%);
+    color: #FAFAF8;
+    box-shadow:
+      0 8px 28px rgba(74, 124, 89, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow:
+        0 12px 36px rgba(74, 124, 89, 0.30),
+        0 4px 12px rgba(0, 0, 0, 0.10);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+// Reuse home page elements already defined in _home.scss
+// .brand-section, .brand-wordmark, .mascot-*, .hero-headline,
+// .hero-description, .btn-cta, .btn-signup, .footer-note
+// are all inherited from _home.scss
+
+.creation-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

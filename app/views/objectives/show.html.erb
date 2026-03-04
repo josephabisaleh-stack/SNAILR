@@ -1,40 +1,81 @@
 
 <% if @objective.status == "in_creation" %>
-  <div id="messages">
-    <% @chat.messages.each do |message| %>
-      <% if message.role == "user" %>
-        <div class="d-flex justify-content-end mb-2">
-          <div class="bg-white px-3 pb-0 pt-3 rounded-pill">
-            <%= simple_format(message.content) %>
-          </div>
-        </div>
-      <% elsif message.role == "assistant" %>
-        <div class="d-flex justify-content-start mb-5">
-          <div class="px-3 pb-0 pt-3">
-              <%= raw(render_markdown(message.content)) %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-
-  <% has_assistant_reply = @chat.messages.where(role: "assistant").any? %>
-  <div id="new_message_container" name="latest">
-    <%= simple_form_for [@chat, @message] do |f| %>
-      <% if has_assistant_reply %>
-        <%= f.input :content, label: "Do you want to precise something or modify the suggested steps?", required: true, placeholder: "Could you ..." %>
-      <% else %>
-        <%= f.input :content, label: "What is your goal mon cher #{current_user.first_name}?", required: true, placeholder: "I would like to learn to code..." %>
-      <% end %>
-      <%= f.button :submit, 'Ask SnailR', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
-
-  <% if @chat.messages.where(role: "assistant").any? %>
-    <div class="text-center mt-4">
-      <%= button_to "Confirm the objective and steps", confirm_objective_path(@objective), method: :patch, class: "btn btn-success btn-lg" %>
-    </div>
+  <% content_for :head do %>
+    <style>
+      header { display: none; }
+      #main-content { padding: 0; margin: 0; }
+    </style>
   <% end %>
+
+  <div class="creation-page">
+    <div class="creation-container">
+
+      <div class="brand-section">
+        <div class="brand-wordmark">Snail<span class="brand-r">-R</span></div>
+      </div>
+
+      <div class="mascot-wrapper">
+        <div class="mascot-ring">
+          <div class="mascot-circle">
+            <span class="mascot-emoji">🐌</span>
+          </div>
+        </div>
+        <div class="mascot-glow"></div>
+      </div>
+
+      <div class="creation-hero">
+        <h2 class="hero-headline">
+          <% if @chat.messages.where(role: "assistant").any? %>
+            Voici votre plan.
+          <% else %>
+            Créons votre objectif.
+          <% end %>
+        </h2>
+        <p class="hero-description">
+          <% if @chat.messages.where(role: "assistant").any? %>
+            Vous pouvez affiner les étapes ou confirmer pour commencer.
+          <% else %>
+            Décrivez votre objectif et SnailR vous proposera des étapes concrètes.
+          <% end %>
+        </p>
+      </div>
+
+      <div class="creation-chat">
+        <% @chat.messages.each do |message| %>
+          <% if message.role == "user" %>
+            <div class="chat-bubble chat-user">
+              <%= simple_format(message.content) %>
+            </div>
+          <% elsif message.role == "assistant" %>
+            <div class="chat-bubble chat-assistant">
+              <%= raw(render_markdown(message.content)) %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="creation-form">
+        <%= simple_form_for [@chat, @message] do |f| %>
+          <% has_assistant_reply = @chat.messages.where(role: "assistant").any? %>
+          <%= f.input :content,
+                label: false,
+                required: true,
+                placeholder: has_assistant_reply ? "Précisez ou modifiez les étapes..." : "Je voudrais apprendre à coder...",
+                input_html: { class: "creation-input" } %>
+          <%= f.button :submit, 'Demander à SnailR', class: 'btn-cta btn-signup' %>
+        <% end %>
+      </div>
+
+      <% if @chat.messages.where(role: "assistant").any? %>
+        <div class="creation-confirm">
+          <%= button_to "Confirmer et commencer", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
+        </div>
+      <% end %>
+
+      <p class="footer-note">Un pas à la fois &nbsp;·&nbsp; Prenez votre temps</p>
+
+    </div>
+  </div>
 <% else %>
   <%= render "in_progress" %>
 <% end %>
