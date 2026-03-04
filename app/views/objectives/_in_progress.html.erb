@@ -17,13 +17,13 @@
   <header class="header">
     <div>
       <div class="header-title">Your Progression Path</div>
-      <div class="header-sub">Un voyage de d&#233;couverte et de ma&#238;trise
+      <div class="header-sub">A journey of discovery and mastery
 
         <%= @objective.title %>
 
       </div>
     </div>
-    <div class="scroll-hint">D&#233;filer</div>
+    <div class="scroll-hint">Scroll</div>
   </header>
 
   <div class="progress-dots" id="progressDots">
@@ -62,31 +62,31 @@
           <p><%= step.title %> - <%= step.xp_reward %></p>
         <% end %>
       <div class="label-name">Initiation</div>
-      <div class="label-desc">L&#39;&#233;veil de la graine &#8212; d&#233;couverte du potentiel dormant</div>
+      <div class="label-desc">The awakening of the seed &mdash; discovering dormant potential</div>
     </div>
     <div class="stage-label label-2" id="label-2">
       <span class="label-bg-num">02</span>
       <div class="label-stage">Stage 2</div>
-      <div class="label-name">Apprentissage</div>
-      <div class="label-desc">La graine germe &#8212; acquisition des fondements et de la connaissance</div>
+      <div class="label-name">Learning</div>
+      <div class="label-desc">The seed sprouts &mdash; acquiring foundations and knowledge</div>
     </div>
     <div class="stage-label label-3" id="label-3">
       <span class="label-bg-num">03</span>
       <div class="label-stage">Stage 3</div>
       <div class="label-name">Expansion</div>
-      <div class="label-desc">Les branches s&#39;&#233;tendent &#8212; &#233;largissement des comp&#233;tences</div>
+      <div class="label-desc">Branches spread &mdash; expanding skills and horizons</div>
     </div>
     <div class="stage-label label-4" id="label-4">
       <span class="label-bg-num">04</span>
       <div class="label-stage">Stage 4</div>
-      <div class="label-name">Ma&#238;trise</div>
-      <div class="label-desc">L&#39;arbre est fort &#8212; excellence accomplie, leadership naturel</div>
+      <div class="label-name">Mastery</div>
+      <div class="label-desc">The tree stands strong &mdash; excellence accomplished, natural leadership</div>
     </div>
     <div class="stage-label label-5" id="label-5">
       <span class="label-bg-num">05</span>
       <div class="label-stage">Stage 5</div>
-      <div class="label-name">Accomplissement</div>
-      <div class="label-desc">Le sommet atteint &#8212; transcendance et r&#233;alisation des plus hauts id&#233;aux</div>
+      <div class="label-name">Achievement</div>
+      <div class="label-desc">The summit reached &mdash; transcendence and realization of the highest ideals</div>
     </div>
   </div>
 
@@ -112,8 +112,8 @@
         </defs>
       </svg>
     </div>
-    <div class="finale-title">Accomplissement</div>
-    <div class="finale-sub">Un voyage de d&#233;couverte et de ma&#238;trise</div>
+    <div class="finale-title">Achievement</div>
+    <div class="finale-sub">A journey of discovery and mastery</div>
   </div>
 
 </div>
@@ -140,11 +140,11 @@ const tooltip=document.getElementById('tooltip');
 const ttTitle=document.getElementById('tt-title');
 const ttBody=document.getElementById('tt-body');
 const stageData={
-  1:{title:'Initiation — La Graine',body:'Premier éveil. Le voyage commence ici.'},
-  2:{title:'Apprentissage',body:'Cultiver la connaissance par la pratique.'},
-  3:{title:'Expansion',body:'Élargir les horizons, repousser les limites.'},
-  4:{title:'Maîtrise',body:"L'excellence forgée par l'expérience."},
-  5:{title:'Accomplissement',body:'Transcendance. Le sommet est atteint.'}
+  1:{title:'Initiation — The Seed',body:'First awakening. The journey begins here.'},
+  2:{title:'Learning',body:'Cultivating knowledge through practice.'},
+  3:{title:'Expansion',body:'Expanding horizons, pushing limits.'},
+  4:{title:'Mastery',body:'Excellence forged through experience.'},
+  5:{title:'Achievement',body:'Transcendence. The summit is reached.'}
 };
 document.querySelectorAll('.node').forEach(n=>{
   n.addEventListener('mouseenter',()=>{

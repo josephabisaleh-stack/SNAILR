@@ -1,5 +1,5 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: %i[show confirm] # edit update destroy
+  before_action :set_objective, only: %i[show confirm destroy]
 
   def index
     @objectives = current_user.objectives.order(created_at: :desc)
@@ -28,10 +28,10 @@ class ObjectivesController < ApplicationController
   #   end
   # end
 
-  # def destroy
-  #   @objective.destroy
-  #   redirect_to objectives_path, notice: "Objective deleted."
-  # end
+  def destroy
+    @objective.destroy
+    redirect_to objectives_path, notice: "Objective deleted."
+  end
 
   private
 
