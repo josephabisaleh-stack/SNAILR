@@ -25,17 +25,17 @@
 
       <div class="creation-hero">
         <h2 class="hero-headline">
-          <% if @chat.messages.where(role: "assistant").any? %>
-            Voici votre plan.
+          <% if @objective.title.present? %>
+            <%= @objective.title %>
           <% else %>
-            Créons votre objectif.
+            Let's build your objective.
           <% end %>
         </h2>
         <p class="hero-description">
           <% if @chat.messages.where(role: "assistant").any? %>
-            Vous pouvez affiner les étapes ou confirmer pour commencer.
+            You can refine the steps or confirm to get started.
           <% else %>
-            Décrivez votre objectif et SnailR vous proposera des étapes concrètes.
+            Describe your goal and SnailR will suggest concrete steps.
           <% end %>
         </p>
       </div>
@@ -60,29 +60,17 @@
           <%= f.input :content,
                 label: false,
                 required: true,
-                placeholder: has_assistant_reply ? "Précisez ou modifiez les étapes..." : "Je voudrais apprendre à coder...",
+                placeholder: has_assistant_reply ? "Refine or adjust the steps..." : "I would like to learn to code...",
                 input_html: { class: "creation-input" } %>
-          <%= f.button :submit, 'Demander à SnailR', class: 'btn-cta btn-signup' %>
+          <%= f.button :submit, 'Ask SnailR', class: 'btn-cta btn-signup' %>
         <% end %>
       </div>
 
       <% if @chat.messages.where(role: "assistant").any? %>
         <div class="creation-confirm">
-          <%= button_to "Confirmer et commencer", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
+          <%= button_to "Confirm & Get Started", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
         </div>
       <% end %>
-
-  <% has_assistant_reply = @chat.messages.where(role: "assistant").any? %>
-  <div id="new_message_container" name="latest">
-    <%= simple_form_for [@chat, @message] do |f| %>
-      <% if has_assistant_reply %>
-        <%= f.input :content, label: "Do you want to precise something or modify the suggested steps?", required: true, placeholder: "Could you ..." %>
-      <% else %>
-        <%= f.input :content, label: "What is your goal, #{current_user.first_name}?", required: true, placeholder: "I would like to learn to code..." %>
-      <% end %>
-      <%= f.button :submit, 'Ask SnailR', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
 
     </div>
   </div>
