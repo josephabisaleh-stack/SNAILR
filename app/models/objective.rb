@@ -1,7 +1,7 @@
 class Objective < ApplicationRecord
   belongs_to :user
   has_many :steps, dependent: :destroy
-  has_many :chats, dependent: :destroy
+  has_one :chat, dependent: :destroy
 
   enum :status, {
     in_creation: "in_creation",
