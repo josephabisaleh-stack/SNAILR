@@ -1,1 +1,245 @@
-// Specific CSS for your home-page
+// Landing page — Snail-R
+
+.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFFFFF 0%, #F7F6F2 40%, #EDE9E1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle decorative blobs
+  &::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(237,233,225,0.8) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -60px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220,215,205,0.6) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.landing-container {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+// Brand wordmark
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.brand-wordmark {
+  font-family: $headers-font;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1C1C1A;
+  letter-spacing: -0.03em;
+  line-height: 1;
+
+  .brand-r {
+    color: #8C8272;
+  }
+}
+
+// Mascot / profile picture
+.mascot-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascot-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,195,185,0.35) 0%, transparent 70%);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.mascot-ring {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2DDD5 100%);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.10),
+    0 6px 18px rgba(0, 0, 0, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 1);
+}
+
+.mascot-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #FAFAF8, #F0EDE6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .mascot-emoji {
+    font-size: 4.2rem;
+    line-height: 1;
+    user-select: none;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.10));
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50%       { transform: scale(1.08); opacity: 1; }
+}
+
+// Hero text
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hero-headline {
+  font-family: $headers-font;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1C1C1A;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.hero-description {
+  font-family: $body-font;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #6A6860;
+  margin: 0;
+  padding: 0 0.5rem;
+}
+
+// Feature pills
+.feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+
+  .pill {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-family: $body-font;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #5A5750;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(6px);
+  }
+}
+
+// CTA buttons
+.cta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.btn-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 999px;
+  font-family: $body-font;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+  &:active {
+    transform: scale(0.98) !important;
+  }
+}
+
+.btn-signup {
+  background: #1C1C1A;
+  color: #FAFAF8;
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.10);
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: #2E2E2B;
+    color: #FAFAF8;
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.22),
+      0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+
+    svg { transform: translateX(3px); }
+  }
+}
+
+.btn-login {
+  background: rgba(255, 255, 255, 0.7);
+  color: #1C1C1A;
+  border: 1.5px solid rgba(0, 0, 0, 0.10);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+
+  &:hover {
+    background: #FFFFFF;
+    color: #1C1C1A;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+    transform: translateY(-2px);
+  }
+}
+
+// Footer note
+.footer-note {
+  font-family: $body-font;
+  font-size: 0.75rem;
+  color: #A8A49E;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
