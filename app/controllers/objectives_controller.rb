@@ -1,5 +1,5 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: [:show, :edit, :update, :destroy, :confirm]
+  before_action :set_objective, only: [:show, :edit, :update, :destroy]
 
   def index
     @objectives = current_user.objectives
