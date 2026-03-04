@@ -1,0 +1,186 @@
+
+<%# <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"> %>
+
+<div class="objective-in-progress">
+  <div class="cursor" id="cursor"></div>
+  <div class="tooltip" id="tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-body" id="tt-body"></div>
+  </div>
+  <div class="ambient amb-1"></div>
+  <div class="ambient amb-2"></div>
+  <div class="ambient amb-gold"></div>
+  <div class="ornament orn-tl">&#10087;</div>
+  <div class="ornament orn-br">&#10087;</div>
+  <div class="starfield" id="starfield"></div>
+
+  <header class="header">
+    <div>
+      <div class="header-title">Your Progression Path</div>
+      <div class="header-sub">Un voyage de d&#233;couverte et de ma&#238;trise
+
+        <%= @objective.title %>
+
+      </div>
+    </div>
+    <div class="scroll-hint">D&#233;filer</div>
+  </header>
+
+  <div class="progress-dots" id="progressDots">
+    <div class="dot active" data-stage="1"></div>
+    <div class="dot" data-stage="2"></div>
+    <div class="dot" data-stage="3"></div>
+    <div class="dot" data-stage="4"></div>
+    <div class="dot" data-stage="5"></div>
+  </div>
+
+  <div class="vortex-stage">
+    <div class="vortex" id="vortex">
+      <div class="ring ring-5"></div>
+      <div class="ring ring-4"></div>
+      <div class="ring ring-3"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-1"></div>
+      <div class="spiral-arm" style="transform:rotate(0deg);background:linear-gradient(to right,transparent,rgba(201,168,76,.2))"></div>
+      <div class="spiral-arm" style="transform:rotate(72deg);background:linear-gradient(to right,transparent,rgba(201,168,76,.2))"></div>
+      <div class="spiral-arm" style="transform:rotate(144deg);background:linear-gradient(to right,transparent,rgba(201,168,76,.2))"></div>
+      <div class="spiral-arm" style="transform:rotate(216deg);background:linear-gradient(to right,transparent,rgba(201,168,76,.2))"></div>
+      <div class="spiral-arm" style="transform:rotate(288deg);background:linear-gradient(to right,transparent,rgba(201,168,76,.2))"></div>
+      <div class="node node-1" data-stage="1"><div class="node-inner"><span class="node-num">1</span></div></div>
+      <div class="node node-2" data-stage="2"><div class="node-inner"><span class="node-num">2</span></div></div>
+      <div class="node node-3" data-stage="3"><div class="node-inner"><span class="node-num">3</span></div></div>
+      <div class="node node-4" data-stage="4"><div class="node-inner"><span class="node-num">4</span></div></div>
+      <div class="node node-5" data-stage="5"><div class="node-inner"><span class="node-num">5</span></div></div>
+    </div>
+  </div>
+
+  <div class="labels-container">
+    <div class="stage-label label-1" id="label-1">
+      <span class="label-bg-num">01</span>
+      <div class="label-stage">Step 1</div>
+      <% @objective.steps.sorted.each do |step| %>
+          <p><%= step.title %> - <%= step.xp_reward %></p>
+        <% end %>
+      <div class="label-name">Initiation</div>
+      <div class="label-desc">L&#39;&#233;veil de la graine &#8212; d&#233;couverte du potentiel dormant</div>
+    </div>
+    <div class="stage-label label-2" id="label-2">
+      <span class="label-bg-num">02</span>
+      <div class="label-stage">Stage 2</div>
+      <div class="label-name">Apprentissage</div>
+      <div class="label-desc">La graine germe &#8212; acquisition des fondements et de la connaissance</div>
+    </div>
+    <div class="stage-label label-3" id="label-3">
+      <span class="label-bg-num">03</span>
+      <div class="label-stage">Stage 3</div>
+      <div class="label-name">Expansion</div>
+      <div class="label-desc">Les branches s&#39;&#233;tendent &#8212; &#233;largissement des comp&#233;tences</div>
+    </div>
+    <div class="stage-label label-4" id="label-4">
+      <span class="label-bg-num">04</span>
+      <div class="label-stage">Stage 4</div>
+      <div class="label-name">Ma&#238;trise</div>
+      <div class="label-desc">L&#39;arbre est fort &#8212; excellence accomplie, leadership naturel</div>
+    </div>
+    <div class="stage-label label-5" id="label-5">
+      <span class="label-bg-num">05</span>
+      <div class="label-stage">Stage 5</div>
+      <div class="label-name">Accomplissement</div>
+      <div class="label-desc">Le sommet atteint &#8212; transcendance et r&#233;alisation des plus hauts id&#233;aux</div>
+    </div>
+  </div>
+
+  <div class="finale">
+    <div class="mountain-wrap">
+      <svg width="200" height="160" viewBox="0 0 200 160" fill="none">
+        <path d="M20 150 L80 40 L140 150Z" fill="#1a3a5c" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+        <path d="M60 150 L100 10 L140 150Z" fill="url(#mg)" stroke="rgba(201,168,76,0.6)" stroke-width="1.5"/>
+        <path d="M87 60 L100 10 L113 60 L100 55Z" fill="url(#sg)"/>
+        <line x1="100" y1="10" x2="100" y2="55" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/>
+        <circle cx="100" cy="10" r="4" fill="#c9a84c" opacity="0.9"/>
+        <circle cx="100" cy="10" r="10" fill="rgba(201,168,76,0.2)"/>
+        <defs>
+          <linearGradient id="mg" x1="60" y1="150" x2="140" y2="10" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0d1b2a"/>
+            <stop offset="60%" stop-color="#1a3a5c"/>
+            <stop offset="100%" stop-color="#2e5f8a"/>
+          </linearGradient>
+          <linearGradient id="sg" x1="100" y1="10" x2="100" y2="60" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.4"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="finale-title">Accomplissement</div>
+    <div class="finale-sub">Un voyage de d&#233;couverte et de ma&#238;trise</div>
+  </div>
+
+</div>
+<script>
+// Stars
+const sf = document.getElementById('starfield');
+for(let i=0;i<180;i++){
+  const s=document.createElement('div');
+  const sz=Math.random()*2.5+0.5;
+  s.className='star';
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${-Math.random()*4}s;--base-op:${0.1+Math.random()*0.4};opacity:var(--base-op)`;
+  sf.appendChild(s);
+}
+
+// Cursor
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=(e.clientX-6)+'px';
+  cursor.style.top=(e.clientY-6)+'px';
+});
+
+// Tooltip
+const tooltip=document.getElementById('tooltip');
+const ttTitle=document.getElementById('tt-title');
+const ttBody=document.getElementById('tt-body');
+const stageData={
+  1:{title:'Initiation — La Graine',body:'Premier éveil. Le voyage commence ici.'},
+  2:{title:'Apprentissage',body:'Cultiver la connaissance par la pratique.'},
+  3:{title:'Expansion',body:'Élargir les horizons, repousser les limites.'},
+  4:{title:'Maîtrise',body:"L'excellence forgée par l'expérience."},
+  5:{title:'Accomplissement',body:'Transcendance. Le sommet est atteint.'}
+};
+document.querySelectorAll('.node').forEach(n=>{
+  n.addEventListener('mouseenter',()=>{
+    const d=stageData[n.dataset.stage];
+    ttTitle.textContent=d.title; ttBody.textContent=d.body;
+    tooltip.classList.add('show');
+  });
+  n.addEventListener('mouseleave',()=>tooltip.classList.remove('show'));
+  n.addEventListener('mousemove',e=>{
+    tooltip.style.left=(e.clientX+18)+'px';
+    tooltip.style.top=(e.clientY-10)+'px';
+  });
+});
+
+// Labels
+const labelThresholds={'label-1':0.05,'label-2':0.22,'label-3':0.38,'label-4':0.54,'label-5':0.70};
+const labelHideAt={'label-1':0.18,'label-2':0.34,'label-3':0.50,'label-4':0.66,'label-5':0.84};
+const dots=document.querySelectorAll('.dot');
+
+function onScroll(){
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+  for(const[id,t]of Object.entries(labelThresholds)){
+    const el=document.getElementById(id);
+    el.classList.toggle('visible',p>=t&&p<labelHideAt[id]);
+  }
+  let a=1;
+  if(p>=0.70)a=5; else if(p>=0.54)a=4; else if(p>=0.38)a=3; else if(p>=0.22)a=2;
+  dots.forEach(d=>d.classList.toggle('active',+d.dataset.stage===a));
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+// Dot clicks
+const getMax=()=>document.body.scrollHeight-window.innerHeight;
+const targets={1:0.05,2:0.22,3:0.38,4:0.54,5:0.70};
+dots.forEach(d=>d.addEventListener('click',()=>{
+  window.scrollTo({top:targets[+d.dataset.stage]*getMax(),behavior:'smooth'});
+}));
+</script>

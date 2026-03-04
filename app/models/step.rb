@@ -5,6 +5,7 @@ class Step < ApplicationRecord
   validates :position, numericality: { greater_than_or_equal_to: 1 }
 
   scope :done, -> { where(done: true) }
+  scope :sorted, -> { order(:position) }
 
   def mark_step_as_done
     self.done = true

@@ -1,5 +1,5 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: %i[show edit update destroy]
+  before_action :set_objective, only: %i[show edit update destroy confirm]
 
   def index
     @objectives = current_user.objectives.order(created_at: :desc)
@@ -7,11 +7,15 @@ class ObjectivesController < ApplicationController
 
   def show
     @chat = @objective.chat
-    @message = @chat.messages.new
+
+    @message = @chat.messages.new if @chat
   end
 
   def new
     @objective = Objective.new
+  end
+
+  def edit
   end
 
   def create
@@ -19,18 +23,20 @@ class ObjectivesController < ApplicationController
     if @objective.save
       redirect_to objective_path(@objective), notice: "Objective created."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
-  def edit
+  def confirm
+    @objective.in_progress!
+    redirect_to objective_path(@objective), notice: "Objective confirmed!"
   end
 
   def update
     if @objective.update(objective_params)
       redirect_to objective_path(@objective), notice: "Objective updated."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
