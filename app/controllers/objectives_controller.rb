@@ -1,8 +1,9 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: %i[show edit update destroy confirm]
+  before_action :set_objective, only: %i[show confirm] # edit update destroy
 
   def index
     @objectives = current_user.objectives.order(created_at: :desc)
+    # ne pas afficher ceux in_creation
   end
 
   def show
@@ -11,39 +12,26 @@ class ObjectivesController < ApplicationController
     @message = @chat.messages.new if @chat
   end
 
-  def new
-    @objective = Objective.new
-  end
-
-  def edit
-  end
-
-  def create
-    @objective = current_user.objectives.build(objective_params)
-    if @objective.save
-      redirect_to objective_path(@objective), notice: "Objective created."
-    else
-      render :new, status: :unprocessable_content
-    end
-  end
+  # def edit
+  # end
 
   def confirm
     @objective.in_progress!
     redirect_to objective_path(@objective), notice: "Objective confirmed!"
   end
 
-  def update
-    if @objective.update(objective_params)
-      redirect_to objective_path(@objective), notice: "Objective updated."
-    else
-      render :edit, status: :unprocessable_content
-    end
-  end
+  # def update
+  #   if @objective.update(objective_params)
+  #     redirect_to objective_path(@objective), notice: "Objective updated."
+  #   else
+  #     render :edit, status: :unprocessable_content
+  #   end
+  # end
 
-  def destroy
-    @objective.destroy
-    redirect_to objectives_path, notice: "Objective deleted."
-  end
+  # def destroy
+  #   @objective.destroy
+  #   redirect_to objectives_path, notice: "Objective deleted."
+  # end
 
   private
 
@@ -51,7 +39,7 @@ class ObjectivesController < ApplicationController
     @objective = current_user.objectives.find(params[:id])
   end
 
-  def objective_params
-    params.expect(objective: %i[title description])
-  end
+  # def objective_params
+  #   params.expect(objective: %i[title description])
+  # end
 end
