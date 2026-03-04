@@ -72,7 +72,17 @@
         </div>
       <% end %>
 
-      <p class="footer-note">Un pas à la fois &nbsp;·&nbsp; Prenez votre temps</p>
+  <% has_assistant_reply = @chat.messages.where(role: "assistant").any? %>
+  <div id="new_message_container" name="latest">
+    <%= simple_form_for [@chat, @message] do |f| %>
+      <% if has_assistant_reply %>
+        <%= f.input :content, label: "Do you want to precise something or modify the suggested steps?", required: true, placeholder: "Could you ..." %>
+      <% else %>
+        <%= f.input :content, label: "What is your goal, #{current_user.first_name}?", required: true, placeholder: "I would like to learn to code..." %>
+      <% end %>
+      <%= f.button :submit, 'Ask SnailR', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
 
     </div>
   </div>
