@@ -1,2 +1,67 @@
-<h1>View objectives index</h1>
-    <%= button_to "Create new objective", chats_path, class: "btn btn-primary" %>
+<div class="snail-app-layout">
+  <div class="app-container">
+
+    <!-- Section Hero / Titre de bienvenue -->
+    <section class="hero-dashboard">
+      <h1 class="headline">Votre Chemin Intentionnel.</h1>
+      <p class="subheadline">
+        Gérez vos objectifs de vie avec concentration. <br>
+        Une étape délibérée à la fois.
+      </p>
+    </section>
+
+    <!-- Liste des Objectifs -->
+    <section class="objectives-section">
+      <div class="section-header">
+        <h3 class="section-label">Objectifs Existants</h3>
+      </div>
+
+      <div class="objectives-stack">
+        <% if @objectives.any? %>
+          <% @objectives.each do |objective| %>
+            <%# Chaque carte est un lien vers la page Show de l'objectif %>
+            <%= link_to objective_path(objective), class: "objective-item" do %>
+              <div class="objective-content">
+                <div class="objective-info">
+                  <span class="objective-name"><%= objective.title %></span>
+                  <%# Affiche "In progress" ou "Completed" proprement %>
+                  <span class="objective-status">
+                    <%= objective.status.humanize %>
+                  </span>
+                </div>
+
+                <div class="objective-meta">
+                  <div class="snail-progress-wrapper">
+                    <%# La largeur de la barre noire est pilotée par le pourcentage %>
+                    <div class="snail-progress-bar" style="width: <%= objective.progress %>%;"></div>
+                  </div>
+                  <%# Si l'objectif est à 100%, on ajoute la classe 'text-orange' pour le style %>
+                  <span class="progress-number <%= 'text-orange' if objective.progress >= 100 %>">
+                    <%= objective.progress %>%
+                  </span>
+                </div>
+              </div>
+              <div class="objective-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%# Message affiché si l'utilisateur n'a aucune donnée %>
+          <div class="empty-state">
+            <p>Prêt à commencer votre voyage ? <br> Créez votre premier objectif ci-dessous.</p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Footer Action / Bouton de création -->
+    <footer class="app-footer">
+      <%= link_to new_objective_path, class: "btn-pill btn-primary w-100" do %>
+        <span>Créer un Nouvel Objectif</span>
+        <i class="fa-solid fa-plus ms-2"></i>
+      <% end %>
+    </footer>
+
+  </div>
+</div>

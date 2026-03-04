@@ -1,0 +1,145 @@
+// CONFIGURATION CHARTE GRAPHIQUE SNAIL-R
+// À placer idéalement dans un fichier dédié et importé dans application.scss
+
+.snail-app-layout {
+  --snail-black: #1d1d1f;
+  --snail-orange: #ff4f00;
+  --snail-gray-bg: #f5f5f7;
+  --snail-gray-text: #86868b;
+  --snail-border: #e8e8ed;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  background-color: #ffffff;
+  color: var(--snail-black);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+
+  .app-container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+
+  .brand-wordmark {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    .brand-r { color: var(--snail-orange); }
+  }
+
+  .headline {
+    font-size: 2.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .subheadline {
+    font-size: 1.15rem;
+    color: var(--snail-gray-text);
+    line-height: 1.5;
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--snail-gray-text);
+    margin-bottom: 20px;
+  }
+
+  .objective-item {
+    display: flex;
+    align-items: center;
+    background: var(--snail-gray-bg);
+    padding: 24px;
+    border-radius: 24px;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+
+    &:hover {
+      transform: scale(1.01);
+      background: #eeeeef;
+      .objective-arrow { color: var(--snail-black); }
+    }
+  }
+
+  .objective-content { flex-grow: 1; }
+
+  .objective-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    .objective-name { font-weight: 700; font-size: 1.2rem; }
+    .objective-status {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--snail-gray-text);
+      background: rgba(0,0,0,0.05);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+  }
+
+  .objective-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .snail-progress-wrapper {
+    flex-grow: 1;
+    height: 6px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    .snail-progress-bar {
+      height: 100%;
+      background: var(--snail-black);
+    }
+  }
+
+  .progress-number { font-weight: 700; min-width: 35px; &.text-orange { color: var(--snail-orange); } }
+
+  .objective-arrow { margin-left: 16px; color: var(--snail-border); }
+
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    &.btn-primary { background: var(--snail-black); color: white; }
+    &.btn-secondary { background: white; border: 1px solid var(--snail-border); color: var(--snail-black); }
+    &:hover { transform: translateY(-2px); }
+  }
+
+  .app-footer { margin-top: 40px; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--snail-gray-text);
+    background: var(--snail-gray-bg);
+    border-radius: 24px;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}

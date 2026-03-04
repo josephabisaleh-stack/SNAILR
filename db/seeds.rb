@@ -34,6 +34,7 @@ objective = Objective.create!(
   status: "completed",
   progress: 100
 )
+Chat.create!(user: joseph, objective: objective)
 
 Step.create!(
   objective: objective,
@@ -70,6 +71,7 @@ objective = Objective.create!(
   status: "in_progress",
   progress: 20
 )
+Chat.create!(user: joseph, objective: objective)
 
 Step.create!(
   objective: objective,
@@ -122,6 +124,7 @@ objective = Objective.create!(
   status: "in_progress",
   progress: 50
 )
+Chat.create!(user: matteo, objective: objective)
 
 Step.create!(
   objective: objective,
