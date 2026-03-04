@@ -66,7 +66,7 @@ class MessagesController < ApplicationController
     @message.role = "user"
 
     if @message.save
-      ruby_llm_chat = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)
+      ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
 
       # Replay previous messages so the LLM has full conversation context
       @chat.messages.order(:created_at).where.not(id: @message.id).each do |msg|
