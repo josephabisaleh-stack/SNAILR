@@ -1,5 +1,5 @@
 class ObjectivesController < ApplicationController
-  before_action :set_objective, only: [:show] # :edit, :update, :destroy, :confirm
+  before_action :set_objective, only: %i[show confirm]
 
   def index
     @objectives = current_user.objectives
@@ -23,6 +23,11 @@ class ObjectivesController < ApplicationController
   #     render :new, status: :unprocessable_entity
   #   end
   # end
+
+  def confirm
+    @objective.in_progress!
+    redirect_to objective_path(@objective), notice: "Objective confirmed!"
+  end
 
   # def edit
   # end
