@@ -77,11 +77,11 @@ class MessagesController < ApplicationController
     if @message.save
       # Generate a smart English title from the user's first message
       if @objective.title.blank?
-        title_response = RubyLLM.chat.with_instructions(TITLE_PROMPT).ask(@message.content)
+        title_response = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(TITLE_PROMPT).ask(@message.content)
         @objective.update!(title: title_response.content.strip.delete('"'))
       end
 
-      ruby_llm_chat = RubyLLM.chat.with_instructions(SYSTEM_PROMPT)
+      ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
 
       # Replay previous messages so the LLM has full conversation context
       @chat.messages.order(:created_at).where.not(id: @message.id).each do |msg|

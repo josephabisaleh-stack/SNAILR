@@ -55,39 +55,16 @@
   </div>
 
   <div class="labels-container">
-    <div class="stage-label label-1" id="label-1">
-      <span class="label-bg-num">01</span>
-      <div class="label-stage">Step 1</div>
-      <% @objective.steps.sorted.each do |step| %>
-          <p><%= step.title %> - <%= step.xp_reward %></p>
-        <% end %>
-      <div class="label-name">Initiation</div>
-      <div class="label-desc">The awakening of the seed &mdash; discovering dormant potential</div>
-    </div>
-    <div class="stage-label label-2" id="label-2">
-      <span class="label-bg-num">02</span>
-      <div class="label-stage">Stage 2</div>
-      <div class="label-name">Learning</div>
-      <div class="label-desc">The seed sprouts &mdash; acquiring foundations and knowledge</div>
-    </div>
-    <div class="stage-label label-3" id="label-3">
-      <span class="label-bg-num">03</span>
-      <div class="label-stage">Stage 3</div>
-      <div class="label-name">Expansion</div>
-      <div class="label-desc">Branches spread &mdash; expanding skills and horizons</div>
-    </div>
-    <div class="stage-label label-4" id="label-4">
-      <span class="label-bg-num">04</span>
-      <div class="label-stage">Stage 4</div>
-      <div class="label-name">Mastery</div>
-      <div class="label-desc">The tree stands strong &mdash; excellence accomplished, natural leadership</div>
-    </div>
-    <div class="stage-label label-5" id="label-5">
-      <span class="label-bg-num">05</span>
-      <div class="label-stage">Stage 5</div>
-      <div class="label-name">Achievement</div>
-      <div class="label-desc">The summit reached &mdash; transcendence and realization of the highest ideals</div>
-    </div>
+    <% @objective.steps.sorted.each do |step| %>
+      <div class="stage-label label-<%= step.position %>" id="label-<%= step.position %>">
+        <span class="label-bg-num">01</span>
+        <div class="label-stage">Step <%= step.position %></div>
+        <div class="label-name"><%= step.title %></div>
+        <div class="label-desc">Earn <%= step.xp_reward %> XP</div>
+      </div>
+    <% end %>
+
+
   </div>
 
   <div class="finale">
