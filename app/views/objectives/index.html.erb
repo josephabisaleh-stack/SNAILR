@@ -3,53 +3,59 @@
 
     <!-- Section Hero / Titre de bienvenue -->
     <section class="hero-dashboard">
-      <h1 class="headline">Votre Chemin Intentionnel.</h1>
+      <h1 class="headline">Your Intentional Path.</h1>
       <p class="subheadline">
-        Gérez vos objectifs de vie avec concentration. <br>
-        Une étape délibérée à la fois.
+        Manage your life goals with focus. <br>
+        One deliberate step at a time.
       </p>
     </section>
 
     <!-- Liste des Objectifs -->
     <section class="objectives-section">
       <div class="section-header">
-        <h3 class="section-label">Objectifs Existants</h3>
+        <h3 class="section-label">Your Objectives</h3>
       </div>
 
       <div class="objectives-stack">
         <% if @objectives.any? %>
           <% @objectives.each do |objective| %>
-            <%# Chaque carte est un lien vers la page Show de l'objectif %>
-            <%= link_to objective_path(objective), class: "objective-item" do %>
-              <div class="objective-content">
-                <div class="objective-info">
-                  <span class="objective-name"><%= objective.title %></span>
-                  <%# Affiche "In progress" ou "Completed" proprement %>
-                  <span class="objective-status">
-                    <%= objective.status.humanize %>
-                  </span>
-                </div>
-
-                <div class="objective-meta">
-                  <div class="snail-progress-wrapper">
-                    <%# La largeur de la barre noire est pilotée par le pourcentage %>
-                    <div class="snail-progress-bar" style="width: <%= objective.progress %>%;"></div>
+            <div class="objective-wrapper">
+              <%# Chaque carte est un lien vers la page Show de l'objectif %>
+              <%= link_to objective_path(objective), class: "objective-item" do %>
+                <div class="objective-content">
+                  <div class="objective-info">
+                    <span class="objective-name"><%= objective.title %></span>
+                    <%# Affiche "In progress" ou "Completed" proprement %>
+                    <span class="objective-status">
+                      <%= objective.status.humanize %>
+                    </span>
                   </div>
-                  <%# Si l'objectif est à 100%, on ajoute la classe 'text-orange' pour le style %>
-                  <span class="progress-number <%= 'text-orange' if objective.progress >= 100 %>">
-                    <%= objective.progress %>%
-                  </span>
+
+                  <div class="objective-meta">
+                    <div class="snail-progress-wrapper">
+                      <div class="snail-progress-bar <%= objective.progress >= 100 ? 'bar-complete' : 'bar-active' %>" style="width: <%= objective.progress %>%;"></div>
+                    </div>
+                    <span class="progress-number <%= objective.progress >= 100 ? 'bar-complete' : 'bar-active' %>">
+                      <%= objective.progress %>%
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div class="objective-arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-              </div>
-            <% end %>
+                <div class="objective-arrow">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </div>
+              <% end %>
+              <%= button_to objective_path(objective), method: :delete,
+                    class: "objective-delete",
+                    form: { id: "delete-form-#{objective.id}" },
+                    data: { delete_trigger: "delete-form-#{objective.id}" } do %>
+                <i class="fa-solid fa-xmark"></i>
+              <% end %>
+            </div>
           <% end %>
         <% else %>
           <%# Message affiché si l'utilisateur n'a aucune donnée %>
           <div class="empty-state">
-            <p>Prêt à commencer votre voyage ? <br> Créez votre premier objectif ci-dessous.</p>
+            <p>Ready to start your journey? <br> Create your first objective below.</p>
           </div>
         <% end %>
       </div>
@@ -58,10 +64,56 @@
     <!-- Footer Action / Bouton de création -->
     <footer class="app-footer">
       <%= button_to chats_path, class: "btn-pill btn-primary w-100" do %>
-        <span>Créer un Nouvel Objectif</span>
+        <span>Create a new objective</span>
         <i class="fa-solid fa-plus ms-2"></i>
       <% end %>
     </footer>
 
   </div>
+
+  <!-- Modale de confirmation suppression -->
+  <div class="snail-modal-overlay" id="snail-modal-overlay">
+    <div class="snail-modal">
+      <h4 class="snail-modal-title">Delete this objective?</h4>
+      <p class="snail-modal-body">This action is irreversible.</p>
+      <div class="snail-modal-actions">
+        <button class="btn-pill btn-secondary" id="modal-cancel-btn">Cancel</button>
+        <button class="btn-pill btn-danger" id="modal-confirm-btn">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  (function () {
+    let pendingFormId = null;
+    const overlay = document.getElementById("snail-modal-overlay");
+
+    document.querySelectorAll("[data-delete-trigger]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        pendingFormId = btn.dataset.deleteTrigger;
+        overlay.classList.add("is-open");
+      });
+    });
+
+    document.getElementById("modal-cancel-btn").addEventListener("click", function () {
+      overlay.classList.remove("is-open");
+      pendingFormId = null;
+    });
+
+    document.getElementById("modal-confirm-btn").addEventListener("click", function () {
+      if (pendingFormId) {
+        document.getElementById(pendingFormId).requestSubmit();
+      }
+      overlay.classList.remove("is-open");
+    });
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) {
+        overlay.classList.remove("is-open");
+        pendingFormId = null;
+      }
+    });
+  })();
+</script>
