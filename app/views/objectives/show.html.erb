@@ -177,15 +177,33 @@
       if (!input || !placeholder || !snail) return;
 
       var snailX = 0;
+      var snailDir = 1;
       var walkInterval;
 
       function maxX() {
-        return input.offsetWidth - 36;
+        return input.offsetWidth - 80;
+      }
+
+      function updateSnailFacing() {
+        if (snailDir === 1) {
+          snail.style.transform = 'translateY(-50%) scaleX(-1)';
+        } else {
+          snail.style.transform = 'translateY(-50%) scaleX(1)';
+        }
       }
 
       function startSnail() {
         walkInterval = setInterval(function() {
-          snailX = (snailX + 0.5) % maxX();
+          snailX += 0.5 * snailDir;
+          if (snailX >= maxX()) {
+            snailX = maxX();
+            snailDir = -1;
+            updateSnailFacing();
+          } else if (snailX <= 0) {
+            snailX = 0;
+            snailDir = 1;
+            updateSnailFacing();
+          }
           snail.style.left = snailX + 'px';
         }, 50);
       }
