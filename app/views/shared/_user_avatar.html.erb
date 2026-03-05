@@ -1,0 +1,53 @@
+<% if user_signed_in? %>
+  <div class="user-avatar-widget" id="user-avatar-widget">
+    <button class="user-avatar-btn" id="user-avatar-btn" aria-label="User menu">
+      <%= "#{current_user.first_name.to_s[0]}#{current_user.last_name.to_s[0]}".upcase %>
+    </button>
+
+    <div class="user-avatar-dropdown" id="user-avatar-dropdown">
+      <div class="avatar-menu-user">
+        <span class="avatar-menu-name"><%= current_user.display_name.presence || "#{current_user.first_name} #{current_user.last_name}" %></span>
+        <span class="avatar-menu-email"><%= current_user.email %></span>
+      </div>
+
+      <div class="avatar-menu-divider"></div>
+
+      <%= link_to objectives_path, class: "avatar-menu-item" do %>
+        <i class="fa-solid fa-house"></i>
+        Home
+      <% end %>
+
+      <%= link_to edit_user_registration_path, class: "avatar-menu-item" do %>
+        <i class="fa-regular fa-circle-user"></i>
+        Profile
+      <% end %>
+
+      <%= link_to settings_path, class: "avatar-menu-item" do %>
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      <% end %>
+
+      <div class="avatar-menu-divider"></div>
+
+      <%= link_to "Log out", destroy_user_session_path,
+            data: { turbo_method: :delete },
+            class: "avatar-menu-item avatar-menu-logout" %>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById("user-avatar-btn");
+      const dropdown = document.getElementById("user-avatar-dropdown");
+
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("is-open");
+      });
+
+      document.addEventListener("click", function () {
+        dropdown.classList.remove("is-open");
+      });
+    })();
+  </script>
+<% end %>
