@@ -58,14 +58,44 @@
   <div class="labels-container">
     <% @objective.steps.sorted.each do |step| %>
       <div class="stage-label label-<%= step.position %>" id="label-<%= step.position %>">
-        <span class="label-bg-num">01</span>
+        <span class="label-bg-num">0<%= step.position %></span>
         <div class="label-stage">Step <%= step.position %></div>
         <div class="label-name"><%= step.title %></div>
         <div class="label-desc">Earn <%= step.xp_reward %> XP</div>
+        <div class="label-details">
+          <div class="label-detail-item"><strong>🎯 Goal:</strong> <%= step.goal %></div>
+          <div class="label-detail-item"><strong>⚠️ Obstacle:</strong> <%= step.obstacle %></div>
+          <div class="label-detail-item"><strong>💡 Quick-fix:</strong> <%= step.quick_fix %></div>
+        </div>
       </div>
     <% end %>
+  </div>
 
-
+  <div class="steps-section">
+    <h2 class="steps-section-title">Your 5 Steps</h2>
+    <div class="steps-cards">
+      <% @objective.steps.sorted.each do |step| %>
+        <div class="step-card">
+          <div class="step-card-header">
+            <span class="step-card-number">Step <%= step.position %></span>
+            <span class="step-card-xp"><%= step.xp_reward %> XP</span>
+          </div>
+          <div class="step-card-title"><%= step.title %></div>
+          <div class="step-card-detail">
+            <div class="step-card-label">🎯 Goal</div>
+            <div class="step-card-value"><%= step.goal %></div>
+          </div>
+          <div class="step-card-detail">
+            <div class="step-card-label">⚠️ Obstacle</div>
+            <div class="step-card-value"><%= step.obstacle %></div>
+          </div>
+          <div class="step-card-detail">
+            <div class="step-card-label">💡 Quick-fix</div>
+            <div class="step-card-value"><%= step.quick_fix %></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="finale">
@@ -118,11 +148,9 @@ const tooltip=document.getElementById('tooltip');
 const ttTitle=document.getElementById('tt-title');
 const ttBody=document.getElementById('tt-body');
 const stageData={
-  1:{title:'Initiation — The Seed',body:'First awakening. The journey begins here.'},
-  2:{title:'Learning',body:'Cultivating knowledge through practice.'},
-  3:{title:'Expansion',body:'Expanding horizons, pushing limits.'},
-  4:{title:'Mastery',body:'Excellence forged through experience.'},
-  5:{title:'Achievement',body:'Transcendence. The summit is reached.'}
+  <% @objective.steps.sorted.each do |step| %>
+  <%= step.position %>:{title:<%= step.title.to_json %>,body:<%= step.goal.to_json %>},
+  <% end %>
 };
 document.querySelectorAll('.node').forEach(n=>{
   n.addEventListener('mouseenter',()=>{
