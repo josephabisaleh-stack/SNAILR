@@ -9,6 +9,7 @@ class ObjectivesController < ApplicationController
   def show
     @chat = @objective.chat
     @message = @chat.messages.new if @chat
+    @steps = @objective.steps
   end
 
   # def edit
