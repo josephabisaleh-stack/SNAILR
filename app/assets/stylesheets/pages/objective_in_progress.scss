@@ -249,3 +249,82 @@ body {
   .tooltip-title { font-family:'Cinzel',serif; font-size:11px; letter-spacing:.2em; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
   .tooltip-body { font-family:'EB Garamond',serif; font-size:13px; color:var(--fog); font-style:italic; }
 }
+
+.steps-section {
+  padding: 4rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .steps-section-title {
+    font-family: 'Cinzel', serif;
+    color: #c9a84c;
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .steps-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .step-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 12px;
+    padding: 1.5rem;
+
+    .step-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c9a84c;
+    }
+
+    .step-card-xp {
+      background: rgba(201, 168, 76, 0.15);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.8rem;
+      color: #c9a84c;
+      font-weight: 600;
+    }
+
+    .step-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f0ede8;
+      margin-bottom: 1rem;
+    }
+
+    .step-card-detail {
+      margin-bottom: 0.75rem;
+
+      .step-card-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(240, 237, 232, 0.5);
+        margin-bottom: 0.2rem;
+      }
+
+      .step-card-value {
+        font-size: 0.9rem;
+        color: rgba(240, 237, 232, 0.85);
+        line-height: 1.5;
+      }
+    }
+  }
+}
