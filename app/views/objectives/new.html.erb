@@ -28,7 +28,10 @@
 
     <div class="creation-form">
       <%= form_with url: chats_path, method: :post do |f| %>
-        <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input" %>
+        <div class="snail-input-box">
+          <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
+          <span class="snail-walker" id="snail-new">🐌</span>
+        </div>
         <%= f.submit "Ask Snail-R", class: "btn-cta btn-signup" %>
       <% end %>
     </div>
@@ -37,3 +40,84 @@
 
   </div>
 </div>
+
+<style>
+  .snail-input-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1.5px solid rgba(0, 0, 0, 0.10);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 2.5rem;
+  }
+  .snail-input-box:focus-within {
+    border-color: rgba(0, 0, 0, 0.20);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+  .snail-input-field {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 2;
+  }
+  .snail-walker {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) scaleX(-1);
+    font-size: 1.8rem;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s;
+  }
+</style>
+
+<script>
+  (function() {
+    var input = document.getElementById('chat-input-new');
+    var snail = document.getElementById('snail-new');
+    if (!input || !snail) return;
+
+    var snailX = 0;
+    var snailDir = 1;
+    var walkInterval;
+
+    function maxX() {
+      return input.offsetWidth - 40;
+    }
+
+    function updateFacing() {
+      snail.style.transform = snailDir === 1
+        ? 'translateY(-50%) scaleX(-1)'
+        : 'translateY(-50%) scaleX(1)';
+    }
+
+    function startSnail() {
+      walkInterval = setInterval(function() {
+        snailX += 0.5 * snailDir;
+        if (snailX >= maxX()) { snailX = maxX(); snailDir = -1; updateFacing(); }
+        else if (snailX <= 0)  { snailX = 0;      snailDir =  1; updateFacing(); }
+        snail.style.left = snailX + 'px';
+      }, 50);
+    }
+
+    function stopSnail() { clearInterval(walkInterval); }
+
+    startSnail();
+
+    input.addEventListener('focus', function() { snail.style.opacity = '0'; stopSnail(); });
+    input.addEventListener('blur',  function() {
+      if (!input.value) { snail.style.opacity = '1'; startSnail(); }
+    });
+    input.addEventListener('input', function() {
+      snail.style.opacity = input.value ? '0' : '1';
+    });
+  })();
+</script>
