@@ -1,7 +1,7 @@
 class YoutubeTool < RubyLLM::Tool
   description <<~DESC
     Search YouTube and return the 3 most relevant videos for a given query.
-    Use this tool to suggest educational or motivational resources related to
+    Use  this tool to suggest educational or motivational resources related to
     the user's objective. Always call it after presenting the step plan.
   DESC
 
