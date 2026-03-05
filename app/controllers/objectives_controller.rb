@@ -1,6 +1,9 @@
 class ObjectivesController < ApplicationController
   before_action :set_objective, only: %i[show confirm destroy]
 
+  def new
+  end
+
   def index
     @objectives = current_user.objectives.order(created_at: :desc)
     # ne pas afficher ceux in_creation
