@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_05_131600) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_05_141803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,8 +56,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_05_131600) do
   create_table "steps", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "done", default: false
+    t.text "goal"
     t.bigint "objective_id", null: false
+    t.text "obstacle"
     t.integer "position", default: 1
+    t.text "quick_fix"
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "xp_reward"
