@@ -1,1 +1,39 @@
-Hello
+<% content_for :head do %>
+  <style>
+    header { display: none; }
+    #main-content { padding: 0; margin: 0; }
+  </style>
+<% end %>
+
+<div class="creation-page">
+  <div class="creation-container">
+
+    <div class="brand-section">
+      <div class="brand-wordmark">Snail<span class="brand-r">-R</span></div>
+    </div>
+
+    <div class="mascot-wrapper">
+      <div class="mascot-ring">
+        <div class="mascot-circle">
+          <span class="mascot-emoji">🐌</span>
+        </div>
+      </div>
+      <div class="mascot-glow"></div>
+    </div>
+
+    <div class="creation-hero">
+      <h2 class="hero-headline">Let's build your objective.</h2>
+      <p class="hero-description">Describe your goal and Snail-R will suggest concrete steps.</p>
+    </div>
+
+    <div class="creation-form">
+      <%= form_with url: chats_path, method: :post do |f| %>
+        <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input" %>
+        <%= f.submit "Ask Snail-R", class: "btn-cta btn-signup" %>
+      <% end %>
+    </div>
+
+    <p class="footer-note">One step at a time</p>
+
+  </div>
+</div>

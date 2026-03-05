@@ -36,7 +36,7 @@
           <% if @chat.messages.where(role: "assistant").any? %>
             You can refine the steps or confirm to get started.
           <% else %>
-            Describe your goal and SnailR will suggest concrete steps.
+            Snail-R is crafting your plan...
           <% end %>
         </p>
       </div>
@@ -64,11 +64,10 @@
         <% end %>
       </div>
 
-      <% if @chat.messages.where(role: "assistant").any? %>
-        <div class="creation-confirm">
-          <%= button_to "Confirm & Get Started", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
-        </div>
-      <% end %>
+      <% has_assistant = @chat.messages.where(role: "assistant").any? %>
+      <div class="creation-confirm" id="confirm-section" style="<%= has_assistant ? '' : 'display:none;' %>">
+        <%= button_to "Confirm & Get Started", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
+      </div>
 
     </div>
   </div>
@@ -77,6 +76,7 @@
     document.addEventListener("turbo:load", scrollToBottom);
     document.addEventListener("turbo:before-stream-render", function() {
       document.getElementById("llm-loading").style.display = "none";
+      document.getElementById("confirm-section").style.display = "";
       setTimeout(scrollToBottom, 50);
     });
     document.addEventListener("turbo:load", function() {
