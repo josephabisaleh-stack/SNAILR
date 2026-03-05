@@ -15,6 +15,8 @@ class ObjectivesController < ApplicationController
     Example output:
     [{"title":"Build a Daily Reading Habit","xp_reward":20,"goal":"Read 20 pages every day for 30 days","obstacle":"Lack of time","quick_fix":"Read during commute or before bed"}]
   PROMPT
+  def new
+  end
 
   def index
     @objectives = current_user.objectives.order(created_at: :desc)
