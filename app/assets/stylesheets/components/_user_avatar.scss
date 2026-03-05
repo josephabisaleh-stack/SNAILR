@@ -1,0 +1,88 @@
+.user-avatar-widget {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 900;
+}
+
+.user-avatar-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1d1d1f;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.user-avatar-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: white;
+  border-radius: 16px;
+  padding: 8px;
+  min-width: 210px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  display: none;
+
+  &.is-open { display: block; }
+}
+
+.avatar-menu-user {
+  padding: 8px 12px 12px;
+  display: flex;
+  flex-direction: column;
+
+  .avatar-menu-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1d1d1f;
+  }
+
+  .avatar-menu-email {
+    font-size: 0.75rem;
+    color: #86868b;
+    margin-top: 2px;
+  }
+}
+
+.avatar-menu-divider {
+  height: 1px;
+  background: #e8e8ed;
+  margin: 4px 0;
+}
+
+.avatar-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #1d1d1f;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.15s ease;
+
+  &:hover { background: #f5f5f7; color: #1d1d1f; }
+
+  &.avatar-menu-logout {
+    color: #ff3b30;
+    &:hover { background: #fff1f0; color: #ff3b30; }
+  }
+
+  i { width: 16px; text-align: center; }
+}
