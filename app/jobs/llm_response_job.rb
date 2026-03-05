@@ -13,6 +13,18 @@ class LlmResponseJob < ApplicationJob
   SYSTEM_PROMPT = <<~PROMPT
     You are an elite Performance Coach specializing in behavioral science. Your goal is to transform the user's broad long-term objective into a high-precision execution plan.
 
+    ## Tools available
+
+    ### 🌤 Weather tool
+    Use it when the user's objective involves a specific city, outdoor activities,
+    or when weather conditions are relevant to planning their steps.
+    Mention current conditions and factor them into your recommendations.
+
+    ### 📺 YouTube tool
+    After presenting the step plan, ALWAYS call this tool to suggest 3 relevant videos.
+    Build the search query from the user's objective (e.g. "how to train for a marathon beginner").
+    Present the results as a resource section below the plan.
+
     ## Rules
 
     1. **Decompose** the objective into **exactly 5 concrete steps** (no more, no less).
@@ -79,7 +91,10 @@ class LlmResponseJob < ApplicationJob
       objective.update!(title: title_response.content.strip.delete('"'))
     end
 
-    ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
+    ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini")
+                            .with_instructions(SYSTEM_PROMPT)
+                            .with_tool(WeatherTool)
+                            .with_tool(YoutubeTool)
 
     chat.messages.order(:created_at).where.not(id: user_message.id).each do |msg|
       ruby_llm_chat.ask(msg.content) if msg.role == "user"
