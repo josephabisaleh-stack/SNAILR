@@ -5,8 +5,8 @@ class ObjectivesController < ApplicationController
   end
 
   def index
-    @objectives = current_user.objectives.order(created_at: :desc)
-    # ne pas afficher ceux in_creation
+    @objectives = current_user.objectives.order(created_at: :desc).includes(chat: :messages)
+    @youtube_links = build_youtube_links(@objectives)
   end
 
   def show
@@ -39,6 +39,18 @@ class ObjectivesController < ApplicationController
 
   def set_objective
     @objective = current_user.objectives.find(params[:id])
+  end
+
+  def build_youtube_links(objectives)
+    objectives.each_with_object({}) do |objective, hash|
+      next unless objective.chat
+
+      last_msg = objective.chat.messages.select { |m| m.role == "assistant" }.last
+      next unless last_msg
+
+      urls = last_msg.content.scan(/https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+/)
+      hash[objective.id] = urls if urls.any?
+    end
   end
 
   # def objective_params

@@ -65,6 +65,70 @@
     .objective-item { margin-bottom: 0; }
   }
 
+  .objective-yt-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #ff0000;
+    font-size: 0.9rem;
+    padding: 4px 6px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1;
+    transition: transform 0.15s ease;
+
+    &:hover { transform: scale(1.15); color: #cc0000; }
+  }
+
+  .objective-yt-dropdown {
+    position: absolute;
+    bottom: 44px;
+    right: 8px;
+    background: white;
+    border-radius: 16px;
+    padding: 8px;
+    min-width: 220px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+    display: none;
+
+    &.is-open { display: block; }
+  }
+
+  .yt-dropdown-header {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #86868b;
+    padding: 4px 10px 8px;
+
+    i { color: #ff0000; margin-right: 4px; }
+  }
+
+  .yt-video-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #1d1d1f;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.15s ease;
+
+    &:hover { background: #f5f5f7; color: #1d1d1f; }
+  }
+
+  .yt-play-icon {
+    color: #ff0000;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
   .objective-delete {
     position: absolute;
     top: 12px;

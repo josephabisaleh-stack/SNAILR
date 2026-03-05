@@ -50,6 +50,25 @@
                     data: { delete_trigger: "delete-form-#{objective.id}" } do %>
                 <i class="fa-solid fa-xmark"></i>
               <% end %>
+
+              <% if (yt_links = @youtube_links[objective.id]).present? %>
+                <button class="objective-yt-btn"
+                        type="button"
+                        data-yt-target="yt-drop-<%= objective.id %>">
+                  <i class="fa-brands fa-youtube"></i>
+                </button>
+                <div class="objective-yt-dropdown" id="yt-drop-<%= objective.id %>">
+                  <div class="yt-dropdown-header">
+                    <i class="fa-brands fa-youtube"></i> Recommended videos
+                  </div>
+                  <% yt_links.each_with_index do |url, i| %>
+                    <%= link_to url, target: "_blank", rel: "noopener noreferrer", class: "yt-video-link" do %>
+                      <span class="yt-play-icon">▶</span>
+                      Video <%= i + 1 %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
           <% end %>
         <% else %>
@@ -114,6 +133,30 @@
         overlay.classList.remove("is-open");
         pendingFormId = null;
       }
+    });
+  })();
+
+  // YouTube dropdowns
+  (function () {
+    document.querySelectorAll("[data-yt-target]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dropId = btn.dataset.ytTarget;
+        const drop = document.getElementById(dropId);
+
+        document.querySelectorAll(".objective-yt-dropdown.is-open").forEach(function (d) {
+          if (d.id !== dropId) d.classList.remove("is-open");
+        });
+
+        drop.classList.toggle("is-open");
+      });
+    });
+
+    document.addEventListener("click", function () {
+      document.querySelectorAll(".objective-yt-dropdown.is-open").forEach(function (d) {
+        d.classList.remove("is-open");
+      });
     });
   })();
 </script>
