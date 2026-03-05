@@ -1,3 +1,4 @@
+<%= turbo_stream_from @chat %>
 
 <% if @objective.status == "in_creation" %>
   <% content_for :head do %>
@@ -40,18 +41,15 @@
         </p>
       </div>
 
-      <div class="creation-chat">
+      <div class="creation-chat" id="messages">
         <% @chat.messages.each do |message| %>
-          <% if message.role == "user" %>
-            <div class="chat-bubble chat-user">
-              <%= simple_format(message.content) %>
-            </div>
-          <% elsif message.role == "assistant" %>
-            <div class="chat-bubble chat-assistant">
-              <%= raw(render_markdown(message.content)) %>
-            </div>
-          <% end %>
+          <%= render "messages/message", message: message %>
         <% end %>
+      </div>
+
+      <% waiting_for_llm = @chat.messages.order(:created_at).last&.role == "user" %>
+      <div id="llm-loading" class="chat-bubble chat-assistant" style="<%= waiting_for_llm ? '' : 'display:none;' %>">
+        <span class="llm-spinner">🌀</span>
       </div>
 
       <div class="creation-form">
@@ -62,7 +60,7 @@
                 required: true,
                 placeholder: has_assistant_reply ? "Refine or adjust the steps..." : "I would like to learn to code...",
                 input_html: { class: "creation-input" } %>
-          <%= f.button :submit, 'Ask SnailR', class: 'btn-cta btn-signup' %>
+          <%= f.button :submit, 'Ask Snail-R', class: 'btn-cta btn-signup' %>
         <% end %>
       </div>
 
@@ -74,6 +72,27 @@
 
     </div>
   </div>
+  <script>
+    function scrollToBottom() { window.scrollTo(0, document.body.scrollHeight); }
+    document.addEventListener("turbo:load", scrollToBottom);
+    document.addEventListener("turbo:before-stream-render", function() {
+      document.getElementById("llm-loading").style.display = "none";
+      setTimeout(scrollToBottom, 50);
+    });
+    document.addEventListener("turbo:load", function() {
+      var form = document.querySelector(".creation-form form");
+      if (form) {
+        form.addEventListener("submit", function() {
+          document.getElementById("llm-loading").style.display = "";
+          setTimeout(scrollToBottom, 50);
+        });
+      }
+    });
+  </script>
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .llm-spinner { display: inline-block; animation: spin 1s linear infinite; font-size: 2rem; }
+  </style>
 <% else %>
   <%= render "in_progress" %>
 <% end %>
