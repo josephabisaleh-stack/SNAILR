@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_04_100517) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_05_141803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,11 +43,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_100517) do
     t.index ["user_id"], name: "index_objectives_on_user_id"
   end
 
+  create_table "solid_cable_messages", force: :cascade do |t|
+    t.binary "channel", null: false
+    t.bigint "channel_hash", null: false
+    t.datetime "created_at", null: false
+    t.binary "payload", null: false
+    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
+    t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
+    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
+  end
+
   create_table "steps", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "done", default: false
+    t.text "goal"
     t.bigint "objective_id", null: false
+    t.text "obstacle"
     t.integer "position", default: 1
+    t.text "quick_fix"
     t.string "title"
     t.datetime "updated_at", null: false
     t.integer "xp_reward"

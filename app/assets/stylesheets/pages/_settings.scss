@@ -1,0 +1,52 @@
+.snail-app-layout {
+  .settings-section {
+    margin-bottom: 32px;
+  }
+
+  .settings-group {
+    background: var(--snail-gray-bg);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--snail-border);
+
+    &:last-child { border-bottom: none; }
+
+    &.settings-row-danger .settings-row-title { color: #ff3b30; }
+  }
+
+  .settings-row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .settings-row-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--snail-black);
+  }
+
+  .settings-row-desc {
+    font-size: 0.78rem;
+    color: var(--snail-gray-text);
+  }
+
+  .settings-badge-soon {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--snail-gray-text);
+    background: var(--snail-border);
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+}

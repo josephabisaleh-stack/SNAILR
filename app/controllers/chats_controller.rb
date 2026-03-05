@@ -1,15 +1,11 @@
 class ChatsController < ApplicationController
   def create
     @objective = Objective.create!(user: current_user)
+    @chat = Chat.create!(objective: @objective, user: current_user)
 
-    @chat = Chat.new
-    @chat.objective = @objective
-    @chat.user = current_user
+    message = Message.create!(chat: @chat, role: "user", content: params[:content])
+    LlmResponseJob.perform_later(@chat.id, message.id)
 
-    if @chat.save
-      redirect_to objective_path(@objective)
-    else
-      redirect_to objectives_path, alert: "Cannot start."
-    end
+    redirect_to objective_path(@objective)
   end
 end
