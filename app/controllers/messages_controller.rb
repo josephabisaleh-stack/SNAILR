@@ -93,7 +93,7 @@ class MessagesController < ApplicationController
 
       redirect_to objective_path(@objective, anchor: "latest")
     else
-      render "chats/show", status: :unprocessable_entity
+      render "objectives/show", status: :unprocessable_entity
     end
   end
 
