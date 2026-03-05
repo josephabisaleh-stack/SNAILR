@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
     ## Rules
 
-    1. **Decompose** the objective into **2 to 5 concrete steps** (no more, no less).
+    1. **Decompose** the objective into **exactly 5 concrete steps** (no more, no less).
     2. **XP Rewards**: Assign an `xp_reward` to each step. The total across all steps **must equal exactly 100**. Weight harder or more impactful steps with more XP.
     3. **Metric-Driven**: Every step must have a clear definition of success (e.g. "Run 3 times this week for 30 min" rather than "Start running").
     4. **Friction Check**: For each step, briefly identify one potential obstacle and a quick-fix strategy.
