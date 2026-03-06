@@ -22,8 +22,7 @@
     </div>
 
     <div class="creation-hero">
-      <h2 class="hero-headline">Let's build your objective.</h2>
-      <p class="hero-description">Describe your goal and Snail-R will suggest concrete steps.</p>
+      <h2 class="hero-headline">Slow down, change your life !</h2>
     </div>
 
     <div class="creation-form">
@@ -35,11 +34,8 @@
             <i class="fa-solid fa-microphone"></i>
           </button>
         </div>
-        <%= f.submit "Ask Snail-R", class: "btn-cta btn-signup" %>
       <% end %>
     </div>
-
-    <p class="footer-note">One step at a time</p>
 
   </div>
 </div>
@@ -47,17 +43,20 @@
 <style>
   .snail-input-box {
     position: relative;
-    overflow: hidden;
-    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
     border: 1.5px solid rgba(0, 0, 0, 0.10);
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(8px);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 2.5rem;
+    padding-right: 0.4rem;
+    box-shadow: 0 4px 20px rgba(34, 85, 51, 0.15);
   }
   .snail-input-box:focus-within {
-    border-color: rgba(0, 0, 0, 0.20);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-color: rgba(34, 85, 51, 0.30);
+    box-shadow: 0 4px 28px rgba(34, 85, 51, 0.30);
   }
   .snail-input-field {
     width: 100%;
@@ -69,6 +68,25 @@
     font-size: 0.95rem;
     position: relative;
     z-index: 2;
+    border-radius: 999px;
+  }
+  .snail-submit-btn {
+    flex-shrink: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.1s ease;
+    z-index: 3;
+    position: relative;
+    filter: grayscale(100%) brightness(1.8) contrast(1.2);
   }
   .voice-btn {
     position: absolute;
@@ -106,10 +124,10 @@
     pointer-events: none;
     z-index: 1;
     transition: opacity 0.2s;
-  }
+  } */
 </style>
 
-<script>
+<!-- <script>
   (function() {
     var input = document.getElementById('chat-input-new');
     var snail = document.getElementById('snail-new');
