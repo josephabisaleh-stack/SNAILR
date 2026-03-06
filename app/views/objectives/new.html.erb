@@ -22,21 +22,18 @@
     </div>
 
     <div class="creation-hero">
-      <h2 class="hero-headline">Let's build your objective.</h2>
-      <p class="hero-description">Describe your goal and Snail-R will suggest concrete steps.</p>
+      <h2 class="hero-headline">Slow down, change your life !</h2>
     </div>
 
     <div class="creation-form">
       <%= form_with url: chats_path, method: :post do |f| %>
         <div class="snail-input-box">
-          <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
-          <span class="snail-walker" id="snail-new">🐌</span>
+          <%= f.text_field :content, placeholder: "What is my new challenge...", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
+          <!-- <span class="snail-walker" id="snail-new">🐌</span> -->
+          <%= f.submit "🥗", class: "snail-submit-btn" %>
         </div>
-        <%= f.submit "Ask Snail-R", class: "btn-cta btn-signup" %>
       <% end %>
     </div>
-
-    <p class="footer-note">One step at a time</p>
 
   </div>
 </div>
@@ -44,20 +41,23 @@
 <style>
   .snail-input-box {
     position: relative;
-    overflow: hidden;
-    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
     border: 1.5px solid rgba(0, 0, 0, 0.10);
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(8px);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 2.5rem;
+    padding-right: 0.4rem;
+    box-shadow: 0 4px 20px rgba(34, 85, 51, 0.15);
   }
   .snail-input-box:focus-within {
-    border-color: rgba(0, 0, 0, 0.20);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-color: rgba(34, 85, 51, 0.30);
+    box-shadow: 0 4px 28px rgba(34, 85, 51, 0.30);
   }
   .snail-input-field {
-    width: 100%;
+    flex: 1;
     padding: 1rem 1.25rem;
     border: none !important;
     background: transparent !important;
@@ -66,8 +66,35 @@
     font-size: 0.95rem;
     position: relative;
     z-index: 2;
+    border-radius: 999px;
   }
-  .snail-walker {
+  .snail-submit-btn {
+    flex-shrink: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.1s ease;
+    z-index: 3;
+    position: relative;
+    filter: grayscale(100%) brightness(1.8) contrast(1.2);
+  }
+  .snail-submit-btn:hover {
+    background: #333;
+    transform: scale(1.05);
+  }
+  .snail-submit-btn:active {
+    transform: scale(0.95);
+
+}
+  /* .snail-walker {
     position: absolute;
     top: 50%;
     left: 0;
@@ -76,10 +103,10 @@
     pointer-events: none;
     z-index: 1;
     transition: opacity 0.2s;
-  }
+  } */
 </style>
 
-<script>
+<!-- <script>
   (function() {
     var input = document.getElementById('chat-input-new');
     var snail = document.getElementById('snail-new');
@@ -120,4 +147,4 @@
       snail.style.opacity = input.value ? '0' : '1';
     });
   })();
-</script>
+</script> -->
