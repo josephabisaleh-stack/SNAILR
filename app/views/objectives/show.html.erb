@@ -1,242 +1,27 @@
-<%= turbo_stream_from @chat %>
-
-<% if @objective.status == "in_creation" %>
-  <% content_for :head do %>
-    <style>
-      header { display: none; }
-      #main-content { padding: 0; margin: 0; }
-    </style>
-  <% end %>
-
-  <div class="creation-page">
-    <div class="creation-container">
-
-      <div class="brand-section">
-        <div class="brand-wordmark">Snail<span class="brand-r">-R</span></div>
-      </div>
-
-      <div class="mascot-wrapper">
-        <div class="mascot-ring">
-          <div class="mascot-circle">
-            <span class="mascot-emoji">🐌</span>
-          </div>
-        </div>
-        <div class="mascot-glow"></div>
-      </div>
-
-      <div class="creation-hero">
-        <h2 class="hero-headline">
-          <% if @objective.title.present? %>
-            <%= @objective.title %>
-          <% else %>
-            Let's build your objective.
-          <% end %>
-        </h2>
-        <p class="hero-description">
-          <% if @chat.messages.where(role: "assistant").any? %>
-            You can refine the steps or confirm to get started.
-          <% else %>
-            Snail-R is crafting your plan...
-          <% end %>
-        </p>
-      </div>
-
-      <div class="creation-chat" id="messages">
-        <% @chat.messages.each do |message| %>
-          <%= render "messages/message", message: message %>
-        <% end %>
-      </div>
-
-      <% waiting_for_llm = @chat.messages.order(:created_at).last&.role == "user" %>
-      <div id="llm-loading" class="chat-bubble chat-assistant" style="<%= waiting_for_llm ? '' : 'display:none;' %>">
-        <span class="llm-spinner">🌀</span>
-        <span id="snail-pun" style="margin-left:0.6rem; font-style:italic; opacity:0.8;"></span>
-      </div>
-
-      <div class="creation-form">
-        <%= simple_form_for [@chat, @message] do |f| %>
-          <div class="creation-input-wrapper">
-            <% has_assistant_reply = @chat.messages.where(role: "assistant").any? %>
-            <%= f.input :content,
-                  label: false,
-                  required: true,
-                  placeholder: @chat.messages.exists? ? (has_assistant_reply ? "Refine or adjust the steps..." : "Describe your goal...") : "",
-                  input_html: { class: "creation-input", id: "chat-input" } %>
-            <% if !@chat.messages.exists? %>
-              <div class="snail-placeholder" id="snail-placeholder">
-                <span class="snail-emoji">🐌</span>
-                <span class="snail-text">I would like to learn to code...</span>
-                <span class="lettuce-emoji">🥬</span>
-              </div>
-            <% end %>
-          </div>
-          <%= f.button :submit, 'Ask Snail-R', class: 'btn-cta btn-signup' %>
-        <% end %>
-      </div>
-
-      <div id="confirm-section" style="<%= @chat.messages.where(role: 'assistant').exists? ? '' : 'display:none;' %>">
-        <%= button_to "Confirm & Get Started", confirm_objective_path(@objective), method: :patch, class: "btn-cta btn-confirm" %>
-      </div>
-
-    </div>
-  </div>
-  <script>
-    var snailPuns = [
-      "Shell we begin? 🐚",
-      "Taking it slow… just like you asked.",
-      "Your answer is en route. ETA: snail o'clock.",
-      "Slow and steady wins the race. Or so we keep telling ourselves.",
-      "Loading at the speed of snail…",
-      "Our AI is taking the scenic route.",
-      "Good things come to those who wait… said every snail ever.",
-      "Fun fact: snails can sleep for 3 years. We promise we're not doing that.",
-      "Shell-abrating patience, one millisecond at a time.",
-      "Hang tight, we're on snail time.",
-      "Currently slithering through the data…",
-      "No rush. Well, actually, please rush. We're working on it!",
-      "Patience is a virtue. So is having a shell.",
-      "Our server is moving at a snail's pace. You're welcome.",
-      "Speed is overrated. The tortoise agrees."
-    ];
-    var punIndex = 0;
-    var punInterval = null;
-
-    function startPuns() {
-      var el = document.getElementById('snail-pun');
-      if (!el) return;
-      punIndex = Math.floor(Math.random() * snailPuns.length);
-      el.textContent = snailPuns[punIndex];
-      punInterval = setInterval(function() {
-        el.style.opacity = 0;
-        setTimeout(function() {
-          punIndex = (punIndex + 1) % snailPuns.length;
-          el.textContent = snailPuns[punIndex];
-          el.style.opacity = 0.8;
-        }, 400);
-      }, 3500);
-    }
-
-    function stopPuns() {
-      clearInterval(punInterval);
-      punInterval = null;
-    }
-
-    function scrollToBottom() { window.scrollTo(0, document.body.scrollHeight); }
-    document.addEventListener("turbo:load", scrollToBottom);
-    document.addEventListener("turbo:load", function() {
-      if (document.getElementById("llm-loading") && document.getElementById("llm-loading").style.display !== "none") {
-        startPuns();
-      }
-    });
-    document.addEventListener("turbo:before-stream-render", function() {
-      document.getElementById("llm-loading").style.display = "none";
-      document.getElementById("confirm-section").style.display = "";
-      stopPuns();
-      setTimeout(scrollToBottom, 50);
-    });
-    document.addEventListener("turbo:load", function() {
-      var form = document.querySelector(".creation-form form");
-      if (form) {
-        form.addEventListener("submit", function() {
-          document.getElementById("llm-loading").style.display = "";
-          startPuns();
-          setTimeout(scrollToBottom, 50);
-        });
-      }
-    });
-  </script>
+<% content_for :head do %>
   <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .llm-spinner { display: inline-block; animation: spin 1s linear infinite; font-size: 2rem; }
-
-    .creation-input-wrapper { position: relative; }
-    .snail-placeholder {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      display: flex; align-items: center; justify-content: center;
-      pointer-events: none;
-      color: rgba(150, 150, 150, 0.6);
-      font-size: 0.95rem;
-    }
-    .snail-emoji { position: absolute; top: 50%; transform: translateY(-50%) scaleX(-1); font-size: 1.8rem; }
-    .lettuce-emoji { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 2.4rem; }
-    @keyframes snail-jump {
-      0%   { top: 50%; }
-      30%  { top: calc(50% - 24px); }
-      60%  { top: calc(50% - 28px); }
-      80%  { top: calc(50% - 6px); }
-      100% { top: 50%; }
-    }
-    .snail-emoji.jumping { animation: snail-jump 0.5s ease forwards !important; transform-origin: center; }
+    header { display: none; }
+    #main-content { padding: 0; margin: 0; }
   </style>
-  <script>
-    (function() {
-      var input = document.getElementById('chat-input');
-      var placeholder = document.getElementById('snail-placeholder');
-      var snail = placeholder ? placeholder.querySelector('.snail-emoji') : null;
-      if (!input || !placeholder || !snail) return;
-
-      var snailX = 0;
-      var snailDir = 1;
-      var walkInterval;
-
-      function maxX() {
-        return input.offsetWidth - 80;
-      }
-
-      function updateSnailFacing() {
-        if (snailDir === 1) {
-          snail.style.transform = 'translateY(-50%) scaleX(-1)';
-        } else {
-          snail.style.transform = 'translateY(-50%) scaleX(1)';
-        }
-      }
-
-      function startSnail() {
-        walkInterval = setInterval(function() {
-          snailX += 0.5 * snailDir;
-          if (snailX >= maxX()) {
-            snailX = maxX();
-            snailDir = -1;
-            updateSnailFacing();
-          } else if (snailX <= 0) {
-            snailX = 0;
-            snailDir = 1;
-            updateSnailFacing();
-          }
-          snail.style.left = snailX + 'px';
-        }, 50);
-      }
-      function stopSnail() {
-        clearInterval(walkInterval);
-      }
-
-      startSnail();
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowUp' && !snail.classList.contains('jumping')) {
-          snail.classList.add('jumping');
-          snail.addEventListener('animationend', function() {
-            snail.classList.remove('jumping');
-          }, { once: true });
-        }
-      });
-
-      input.addEventListener('focus', function() {
-        placeholder.style.display = 'none';
-        stopSnail();
-      });
-      input.addEventListener('blur', function() {
-        if (!input.value) {
-          placeholder.style.display = 'flex';
-          startSnail();
-        }
-      });
-      input.addEventListener('input', function() {
-        placeholder.style.display = input.value ? 'none' : 'flex';
-      });
-    })();
-  </script>
-<% else %>
-  <%= render "in_progress" %>
 <% end %>
+
+<%= turbo_stream_from @chat %>
+<%= turbo_stream_from @objective %>
+
+<div class="objectives-show">
+  <div class="show-header">
+    <h1><%= @objective.title.presence || "Building your plan..." %></h1>
+    <p>Your objective</p>
+  </div>
+
+  <%= render "spiral", objective: @objective, steps: @steps %>
+
+  <% if @chat %>
+    <div id="chat-section">
+      <%= form_with scope: :message, url: chat_messages_path(@chat), method: :post do |f| %>
+        <%= f.text_area :content, placeholder: "Ask Snail-R to refine your steps...", rows: 2 %>
+        <%= f.submit "Send" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
