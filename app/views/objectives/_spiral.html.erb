@@ -1,0 +1,62 @@
+<div id="spiral-section">
+  <% if steps.empty? %>
+    <div class="spiral-loading">
+      <div class="loading-rings">
+        <div class="loading-ring"></div>
+        <div class="loading-ring"></div>
+        <div class="loading-ring"></div>
+      </div>
+      <p class="loading-text">Crafting your path...</p>
+    </div>
+  <% else %>
+  <div id="spiral-container"
+       data-controller="spiral"
+       data-steps="<%= steps.map { |s| { id: s.id, position: s.position, title: s.title, done: s.done, xp_reward: s.xp_reward } }.to_json %>">
+    <canvas id="spiral-canvas"></canvas>
+  </div>
+
+  <% steps.each do |step| %>
+    <div class="modal fade" id="stepModal-<%= step.id %>" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-corner"><%= step.position %></div>
+          <div class="modal-header">
+            <div class="modal-title-wrapper flex-column">
+              <span class="modal-index">Step <%= step.position %></span>
+              <span class="modal-title"><%= step.title %></span>
+            </div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="fib-status">
+              <% if step.done %>
+                <span class="status-done">&#10003; Completed</span>
+              <% else %>
+                <span class="status-pending">&#9675; In progress</span>
+              <% end %>
+              <div class="fib-ratio">&#10022; <strong><%= step.xp_reward %> XP</strong> reward</div>
+            </div>
+            <div class="step-details mt-3">
+              <div class="step-detail-item">
+                <div class="step-detail-label">Goal</div>
+                <div class="step-detail-value"><%= step.goal %></div>
+              </div>
+              <div class="step-detail-item mt-2">
+                <div class="step-detail-label">Obstacle</div>
+                <div class="step-detail-value"><%= step.obstacle %></div>
+              </div>
+              <div class="step-detail-item mt-2">
+                <div class="step-detail-label">Quick Fix</div>
+                <div class="step-detail-value"><%= step.quick_fix %></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-start">
+            <button type="button" class="btn-gold" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% end %>
+</div>

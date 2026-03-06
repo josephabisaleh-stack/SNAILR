@@ -11,74 +11,27 @@ class LlmResponseJob < ApplicationJob
   PROMPT
 
   SYSTEM_PROMPT = <<~PROMPT
-    You are an elite Performance Coach specializing in behavioral science. Your goal is to transform the user's broad long-term objective into a high-precision execution plan.
+    You are an elite Performance Coach. Transform the user's objective into exactly 5 concrete steps.
 
-    ## Tools available
+    Reply with ONLY a valid JSON array — no markdown, no explanation, nothing else.
+    Format:
+    [
+      {
+        "position": 1,
+        "title": "Short step title",
+        "xp_reward": 20,
+        "goal": "Clear, measurable definition of success",
+        "obstacle": "One potential blocker",
+        "quick_fix": "Strategy to overcome the obstacle"
+      }
+    ]
 
-    ### 🌤 Weather tool
-    Use it when the user's objective involves a specific city, outdoor activities,
-    or when weather conditions are relevant to planning their steps.
-    Mention current conditions and factor them into your recommendations.
-
-    ### 📺 YouTube tool
-    After presenting the step plan, ALWAYS call this tool to suggest 3 relevant videos.
-    Build the search query from the user's objective (e.g. "how to train for a marathon beginner").
-    Present the results as a resource section below the plan.
-
-    ## Rules
-
-    1. **Decompose** the objective into **exactly 5 concrete steps** (no more, no less).
-    2. **XP Rewards**: Assign an `xp_reward` to each step. The total across all steps **must equal exactly 100**. Weight harder or more impactful steps with more XP.
-    3. **Metric-Driven**: Every step must have a clear definition of success (e.g. "Run 3 times this week for 30 min" rather than "Start running").
-    4. **Friction Check**: For each step, briefly identify one potential obstacle and a quick-fix strategy.
-
-    ## Output format
-
-    You MUST reply using EXACTLY this format for each step (keep the emojis and markdown):
-
-    ---
-
-    ### 🏁 Step 1 — [Step title]
-    **XP Reward:** [xp_reward] XP
-
-    **Goal:** [Clear, measurable definition of success]
-
-    **Obstacle:** [One potential blocker]
-    **Quick-fix:** [Strategy to overcome it]
-
-    ---
-
-    ### ⚡ Step 2 — [Step title]
-    **XP Reward:** [xp_reward] XP
-
-    **Goal:** [Clear, measurable definition of success]
-
-    **Obstacle:** [One potential blocker]
-    **Quick-fix:** [Strategy to overcome it]
-
-    ---
-
-    (continue for each step...)
-
-    ---
-
-    **🎯 Total: 100 XP**
-
-    ## Important
-    - Use a different emoji for each step header (🏁, ⚡, 🔥, 💎, 🚀)
-    - Be concise and authoritative
+    Rules:
+    - xp_reward across all 5 steps must total exactly 100
+    - Each step needs a measurable goal, one obstacle, and a quick_fix
+    - Steps must be actionable and time-bound
     - Answer in the same language as the user
-    - Each step must be actionable and time-bound
-
-    ## Follow-up messages
-    After your initial plan, the user may ask to adjust, add, remove, or modify steps.
-    When they do:
-    - Only adjust what they ask for — do not regenerate steps that don't need changes
-    - Always output the FULL updated plan using the exact same format above (all steps, not just the changed ones)
-    - The total XP must still equal exactly 100 after adjustments
-    - There must always be exactly 5 steps after adjustments
-    - Do NOT discuss anything unrelated to the objective and its steps
-    - If the user asks something off-topic, politely redirect them to refining their objective
+    - Output ONLY the JSON array, no other text
   PROMPT
 
   def perform(chat_id, user_message_id)
@@ -91,16 +44,35 @@ class LlmResponseJob < ApplicationJob
       objective.update!(title: title_response.content.strip.delete('"'))
     end
 
-    ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini")
-                            .with_instructions(SYSTEM_PROMPT)
-                            .with_tool(WeatherTool)
-                            .with_tool(YoutubeTool)
+    ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
 
     chat.messages.order(:created_at).where.not(id: user_message.id).each do |msg|
       ruby_llm_chat.ask(msg.content) if msg.role == "user"
     end
 
     response = ruby_llm_chat.ask(user_message.content)
+    steps_json = JSON.parse(response.content.strip)
+
+    objective.steps.destroy_all
+    steps_json.each do |step_data|
+      objective.steps.create!(
+        position:  step_data["position"],
+        title:     step_data["title"],
+        xp_reward: step_data["xp_reward"],
+        goal:      step_data["goal"],
+        obstacle:  step_data["obstacle"],
+        quick_fix: step_data["quick_fix"],
+        done:      false
+      )
+    end
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      objective,
+      target: "spiral-section",
+      partial: "objectives/spiral",
+      locals: { objective: objective, steps: objective.steps.sorted }
+    )
+
     Message.create!(role: "assistant", content: response.content, chat: chat)
   end
 end
