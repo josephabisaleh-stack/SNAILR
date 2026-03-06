@@ -5,14 +5,20 @@
   </style>
 <% end %>
 
-<%= turbo_stream_from @chat %>
+<%= turbo_stream_from @chat if @chat %>
 <%= turbo_stream_from @objective %>
 
-<div class="objectives-show">
+<div class="objectives-show"
+     data-objective-title="<%= @objective.title %>"
+     data-objective-steps="<%= @steps.map { |s| { position: s.position, title: s.title, xp_reward: s.xp_reward, goal: s.goal, obstacle: s.obstacle, quick_fix: s.quick_fix, done: s.done } }.to_json %>">
   <div class="show-header">
-    <h1><%= @objective.title.presence || "Building your plan..." %></h1>
+    <h1 id="objective-title"><%= @objective.title.presence || "Building your plan..." %></h1>
     <p>Your objective</p>
   </div>
+
+  <button class="export-btn" id="export-btn" title="Export as text">
+    <i class="fa-solid fa-download"></i>
+  </button>
 
   <%= render "spiral", objective: @objective, steps: @steps %>
 
@@ -25,3 +31,40 @@
     </div>
   <% end %>
 </div>
+
+<script>
+  document.getElementById('export-btn').addEventListener('click', function() {
+    var container = document.querySelector('.objectives-show');
+    var title = container.dataset.objectiveTitle || 'My Objective';
+    var steps = JSON.parse(container.dataset.objectiveSteps || '[]');
+
+    var line = '━'.repeat(48);
+    var thinLine = '─'.repeat(48);
+    var text = '\n' + line + '\n';
+    text += '  🐌  SNAIL-R  —  ' + title.toUpperCase() + '\n';
+    text += line + '\n\n';
+
+    steps.forEach(function(s) {
+      var status = s.done ? '✓' : '○';
+      text += '  ' + status + '  Step ' + s.position + '  ·  ' + s.title + '\n';
+      text += '     ' + s.xp_reward + ' XP\n';
+      text += thinLine + '\n';
+      text += '     Goal       ' + s.goal + '\n';
+      text += '     Obstacle   ' + s.obstacle + '\n';
+      text += '     Quick Fix  ' + s.quick_fix + '\n';
+      text += '\n';
+    });
+
+    text += line + '\n';
+    text += '  Exported from Snail-R\n';
+    text += line + '\n';
+
+    var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+</script>

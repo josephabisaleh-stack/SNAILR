@@ -42,6 +42,11 @@ class LlmResponseJob < ApplicationJob
     if objective.title.blank?
       title_response = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(TITLE_PROMPT).ask(user_message.content)
       objective.update!(title: title_response.content.strip.delete('"'))
+      Turbo::StreamsChannel.broadcast_replace_to(
+        objective,
+        target: "objective-title",
+        html: "<h1 id=\"objective-title\">#{ERB::Util.html_escape(objective.title)}</h1>"
+      )
     end
 
     ruby_llm_chat = RubyLLM.chat(model: "gpt-4o-mini").with_instructions(SYSTEM_PROMPT)
