@@ -74,4 +74,13 @@
     a.click();
     URL.revokeObjectURL(url);
   });
+
+  (function() {
+    var input = document.getElementById('chat-input-show');
+    var submitBtn = document.getElementById('submit-btn-show');
+    if (!input || !submitBtn) return;
+    input.addEventListener('input', function() {
+      submitBtn.disabled = !input.value.trim();
+    });
+  })();
 </script>

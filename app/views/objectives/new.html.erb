@@ -138,6 +138,7 @@
   (function() {
     var input = document.getElementById('chat-input-new');
     var snail = document.getElementById('snail-new');
+    var submitBtn = document.getElementById('submit-btn');
     if (!input || !snail) return;
 
     var snailX = 0;
@@ -173,6 +174,7 @@
     });
     input.addEventListener('input', function() {
       snail.style.opacity = input.value ? '0' : '1';
+      if (submitBtn) submitBtn.disabled = !input.value.trim();
     });
   })();
 
