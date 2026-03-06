@@ -19,9 +19,73 @@
   <% if @chat %>
     <div id="chat-section">
       <%= form_with scope: :message, url: chat_messages_path(@chat), method: :post do |f| %>
-        <%= f.text_area :content, placeholder: "Ask Snail-R to refine your steps...", rows: 2 %>
-        <%= f.submit "Send" %>
+        <div class="snail-input-box">
+          <%= f.text_field :content, placeholder: "Ask Snail-R to refine your steps...", class: "snail-input-field", id: "chat-input-show" %>
+          <button type="button" class="voice-btn" id="voice-btn-show" title="Dictate your message">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          <button type="submit" class="snail-submit-btn" id="submit-btn-show" disabled title="Send message">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
+        </div>
       <% end %>
     </div>
   <% end %>
 </div>
+
+<script>
+  (function() {
+    var input = document.getElementById('chat-input-show');
+    var submitBtn = document.getElementById('submit-btn-show');
+    if (!input || !submitBtn) return;
+
+    input.addEventListener('input', function() {
+      submitBtn.disabled = !input.value.trim();
+    });
+
+    // Voice-to-text
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var voiceBtn = document.getElementById('voice-btn-show');
+    if (!SpeechRecognition || !voiceBtn) {
+      if (voiceBtn) voiceBtn.style.display = 'none';
+      return;
+    }
+
+    var recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = navigator.language || 'en-US';
+    var isRecording = false;
+
+    voiceBtn.addEventListener('click', function() {
+      if (isRecording) { recognition.stop(); return; }
+      recognition.start();
+    });
+
+    recognition.addEventListener('start', function() {
+      isRecording = true;
+      voiceBtn.classList.add('recording');
+      voiceBtn.querySelector('i').className = 'fa-solid fa-stop';
+      input.focus();
+    });
+
+    recognition.addEventListener('result', function(e) {
+      var transcript = '';
+      for (var i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
+      input.value = transcript;
+      input.dispatchEvent(new Event('input'));
+    });
+
+    recognition.addEventListener('end', function() {
+      isRecording = false;
+      voiceBtn.classList.remove('recording');
+      voiceBtn.querySelector('i').className = 'fa-solid fa-microphone';
+    });
+
+    recognition.addEventListener('error', function() {
+      isRecording = false;
+      voiceBtn.classList.remove('recording');
+      voiceBtn.querySelector('i').className = 'fa-solid fa-microphone';
+    });
+  })();
+</script>
