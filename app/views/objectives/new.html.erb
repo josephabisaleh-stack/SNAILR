@@ -28,7 +28,8 @@
     <div class="creation-form">
       <%= form_with url: chats_path, method: :post do |f| %>
         <div class="snail-input-box">
-          <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
+          <%= f.text_field :content, placeholder: "What's my new challenge?", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
+          <span class="snail-walker" id="snail-new">🐌</span>
           <button type="button" class="voice-btn" id="voice-btn" title="Dictate your objective">
             <i class="fa-solid fa-microphone"></i>
           </button>
@@ -121,21 +122,19 @@
     background: #333;
     transform: scale(1.05);
   }
+  .snail-walker {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) scaleX(-1);
+    font-size: 1.8rem;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s;
+  }
 </style>
 
 <script>
-  (function() {
-    var input = document.getElementById('chat-input-new');
-    var submitBtn = document.getElementById('submit-btn');
-    if (!input || !submitBtn) return;
-
-    input.addEventListener('input', function() {
-      submitBtn.disabled = !input.value.trim();
-    });
-  })();
-</script>
-
-<!-- <script>
   (function() {
     var input = document.getElementById('chat-input-new');
     var snail = document.getElementById('snail-new');
@@ -234,3 +233,4 @@
     });
   })();
 </script>
+

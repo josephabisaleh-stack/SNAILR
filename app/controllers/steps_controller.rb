@@ -1,47 +1,20 @@
 class StepsController < ApplicationController
-  # before_action :set_objective
-  # before_action :set_step, only: [:show, :update, :destroy, :toggle]
+  def mark_step_as_done
+    @step = Step.find(params[:id])
+    objective = @step.objective
 
-  # def show
-  # end
+    return head :forbidden unless objective.user == current_user
 
-  # def create
-  #   @step = @objective.steps.build(step_params)
-  #   if @step.save
-  #     redirect_to objective_path(@objective), notice: "Step added."
-  #   else
-  #     redirect_to objective_path(@objective), alert: "Could not add step."
-  #   end
-  # end
+    @step.update!(done: true)
 
-  # def update
-  #   if @step.update(step_params)
-  #     redirect_to objective_path(@objective), notice: "Step updated."
-  #   else
-  #     redirect_to objective_path(@objective), alert: "Could not update step."
-  #   end
-  # end
+    total_xp = objective.steps.sum(:xp_reward)
+    done_xp = objective.steps.done.sum(:xp_reward)
+    new_progress = total_xp.positive? ? (done_xp * 100.0 / total_xp).round : 0
+    objective.update!(progress: new_progress)
 
-  # def destroy
-  #   @step.destroy
-  #   redirect_to objective_path(@objective), notice: "Step deleted."
-  # end
+    done_count = objective.steps.done.count
+    total_count = objective.steps.count
 
-  # # def mark_step_as_done
-
-  # # end
-
-  # private
-
-  # def set_objective
-  #   @objective = current_user.objectives.find(params[:objective_id])
-  # end
-
-  # def set_step
-  #   @step = @objective.steps.find(params[:id])
-  # end
-
-  # def step_params
-  #   params.require(:step).permit(:title, :position, :xp_reward)
-  # end
+    render json: { done_count: done_count, total_count: total_count, progress: new_progress }
+  end
 end

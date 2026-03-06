@@ -83,7 +83,7 @@ export default class extends Controller {
       dot.setAttribute("data-bs-toggle", "modal")
       dot.setAttribute("data-bs-target", `#stepModal-${step.id}`)
       dot.innerHTML = `
-        <div class="point-ring"></div>
+        <div class="point-ring">${step.position}</div>
         <div class="point-label">${step.title}</div>
       `
       this.element.appendChild(dot)
