@@ -9,10 +9,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :objectives, only: [:new, :index, :show, :destroy] do
-    member do
-      patch :confirm
-    end
-
     resources :steps, only: [:show, :create]
   end
 
