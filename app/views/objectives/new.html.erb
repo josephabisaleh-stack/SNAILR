@@ -33,6 +33,9 @@
           <button type="button" class="voice-btn" id="voice-btn" title="Dictate your objective">
             <i class="fa-solid fa-microphone"></i>
           </button>
+          <button type="submit" class="snail-submit-btn" id="submit-btn" disabled title="Create objective">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
         </div>
       <% end %>
     </div>
@@ -60,7 +63,7 @@
   }
   .snail-input-field {
     width: 100%;
-    padding: 1rem 3rem 1rem 1.25rem;
+    padding: 1rem 0.5rem 1rem 1.25rem;
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
@@ -70,29 +73,8 @@
     z-index: 2;
     border-radius: 999px;
   }
-  .snail-submit-btn {
-    flex-shrink: 0;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 50%;
-    border: none;
-    background: #1a1a1a;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease, transform 0.1s ease;
-    z-index: 3;
-    position: relative;
-    filter: grayscale(100%) brightness(1.8) contrast(1.2);
-  }
   .voice-btn {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
+    flex-shrink: 0;
     z-index: 3;
     background: none;
     border: none;
@@ -112,8 +94,33 @@
     animation: pulse-mic 1.2s ease-in-out infinite;
   }
   @keyframes pulse-mic {
-    0%, 100% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-50%) scale(1.15); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  .snail-submit-btn {
+    flex-shrink: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.1s ease;
+    z-index: 3;
+    margin-right: 0.15rem;
+  }
+  .snail-submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  .snail-submit-btn:not(:disabled):hover {
+    background: #333;
+    transform: scale(1.05);
   }
   .snail-walker {
     position: absolute;

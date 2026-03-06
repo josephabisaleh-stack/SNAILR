@@ -27,7 +27,7 @@ class ObjectivesController < ApplicationController
 
   def destroy
     @objective.destroy
-    redirect_to objectives_path, notice: "Objective deleted."
+    redirect_to objectives_path
   end
 
   private

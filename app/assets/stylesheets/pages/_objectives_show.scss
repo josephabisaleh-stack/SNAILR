@@ -1,8 +1,8 @@
 .objectives-show {
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  background: linear-gradient(160deg, #FFFFFF 0%, #F7F6F2 40%, #EDE9E1 100%);
-  font-family: 'Cormorant Garamond', serif;
+  background: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
   color: #1C1C1A;
   min-height: 100vh;
   display: flex;
@@ -405,50 +405,80 @@
     width: 600px;
     z-index: 10;
 
-    form {
+    .snail-input-box {
       display: flex;
-      gap: 0.5rem;
-      align-items: flex-end;
-    }
-
-    textarea {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      color: #1C1C1A;
-      padding: 0.75rem 1rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      resize: none;
-      border-radius: 0;
+      align-items: center;
+      border-radius: 999px;
+      border: 1.5px solid rgba(0, 0, 0, 0.10);
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(8px);
-      min-height: 48px;
-      max-height: 120px;
-      transition: border-color 0.2s;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      padding-right: 0.4rem;
+      box-shadow: 0 4px 20px rgba(34, 85, 51, 0.15);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-      &::placeholder { color: rgba(28, 28, 26, 0.35); }
-      &:focus {
-        outline: none;
-        border-color: rgba(140, 130, 114, 0.5);
+      &:focus-within {
+        border-color: rgba(34, 85, 51, 0.30);
+        box-shadow: 0 4px 28px rgba(34, 85, 51, 0.30);
       }
     }
 
-    input[type="submit"] {
-      background: #1C1C1A;
-      border: 1px solid #1C1C1A;
-      color: #FAFAF8;
-      font-family: 'Syncopate', sans-serif;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 0.75rem 1.25rem;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s, color 0.2s;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    .snail-input-field {
+      flex: 1;
+      padding: 1rem 0.5rem 1rem 1.25rem;
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      font-size: 0.95rem;
+      border-radius: 999px;
+      color: #1C1C1A;
 
-      &:hover { background: #2E2E2B; border-color: #2E2E2B; color: #FAFAF8; }
+      &::placeholder { color: rgba(28, 28, 26, 0.35); }
+    }
+
+    .voice-btn {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #A8A49E;
+      padding: 6px 8px;
+      border-radius: 50%;
+      transition: color 0.2s ease, background 0.2s ease;
+
+      &:hover { color: #1C1C1A; background: rgba(0, 0, 0, 0.05); }
+
+      &.recording {
+        color: #E53935;
+        animation: pulse-mic 1.2s ease-in-out infinite;
+      }
+    }
+
+    .snail-submit-btn {
+      flex-shrink: 0;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: none;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.1s ease;
+      margin-right: 0.15rem;
+
+      &:disabled { background: #ccc; cursor: not-allowed; }
+      &:not(:disabled):hover { background: #333; transform: scale(1.05); }
+    }
+
+    @keyframes pulse-mic {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
     }
   }
 }

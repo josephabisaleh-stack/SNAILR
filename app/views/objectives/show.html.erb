@@ -25,8 +25,15 @@
   <% if @chat %>
     <div id="chat-section">
       <%= form_with scope: :message, url: chat_messages_path(@chat), method: :post do |f| %>
-        <%= f.text_area :content, placeholder: "Ask Snail-R to refine your steps...", rows: 2 %>
-        <%= f.submit "Send" %>
+        <div class="snail-input-box">
+          <%= f.text_field :content, placeholder: "Ask Snail-R to refine your steps...", class: "snail-input-field", id: "chat-input-show" %>
+          <button type="button" class="voice-btn" id="voice-btn-show" title="Dictate your message">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          <button type="submit" class="snail-submit-btn" id="submit-btn-show" disabled title="Send message">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
+        </div>
       <% end %>
     </div>
   <% end %>
