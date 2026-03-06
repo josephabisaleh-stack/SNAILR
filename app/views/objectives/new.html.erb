@@ -31,6 +31,9 @@
         <div class="snail-input-box">
           <%= f.text_field :content, placeholder: "I would like to learn to code...", required: true, class: "creation-input snail-input-field", id: "chat-input-new" %>
           <span class="snail-walker" id="snail-new">🐌</span>
+          <button type="button" class="voice-btn" id="voice-btn" title="Dictate your objective">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
         </div>
         <%= f.submit "Ask Snail-R", class: "btn-cta btn-signup" %>
       <% end %>
@@ -58,7 +61,7 @@
   }
   .snail-input-field {
     width: 100%;
-    padding: 1rem 1.25rem;
+    padding: 1rem 3rem 1rem 1.25rem;
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
@@ -66,6 +69,33 @@
     font-size: 0.95rem;
     position: relative;
     z-index: 2;
+  }
+  .voice-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #A8A49E;
+    padding: 6px 8px;
+    border-radius: 50%;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .voice-btn:hover {
+    color: #1C1C1A;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  .voice-btn.recording {
+    color: #E53935;
+    animation: pulse-mic 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse-mic {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.15); }
   }
   .snail-walker {
     position: absolute;
@@ -118,6 +148,63 @@
     });
     input.addEventListener('input', function() {
       snail.style.opacity = input.value ? '0' : '1';
+    });
+  })();
+
+  // Voice-to-text
+  (function() {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var btn = document.getElementById('voice-btn');
+    var input = document.getElementById('chat-input-new');
+    var snail = document.getElementById('snail-new');
+
+    if (!SpeechRecognition || !btn) {
+      if (btn) btn.style.display = 'none';
+      return;
+    }
+
+    var recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = navigator.language || 'en-US';
+
+    var isRecording = false;
+
+    btn.addEventListener('click', function() {
+      if (isRecording) {
+        recognition.stop();
+        return;
+      }
+      recognition.start();
+    });
+
+    recognition.addEventListener('start', function() {
+      isRecording = true;
+      btn.classList.add('recording');
+      btn.querySelector('i').className = 'fa-solid fa-stop';
+      if (snail) snail.style.opacity = '0';
+      input.focus();
+    });
+
+    recognition.addEventListener('result', function(e) {
+      var transcript = '';
+      for (var i = 0; i < e.results.length; i++) {
+        transcript += e.results[i][0].transcript;
+      }
+      input.value = transcript;
+      input.dispatchEvent(new Event('input'));
+    });
+
+    recognition.addEventListener('end', function() {
+      isRecording = false;
+      btn.classList.remove('recording');
+      btn.querySelector('i').className = 'fa-solid fa-microphone';
+    });
+
+    recognition.addEventListener('error', function() {
+      isRecording = false;
+      btn.classList.remove('recording');
+      btn.querySelector('i').className = 'fa-solid fa-microphone';
     });
   })();
 </script>
