@@ -312,6 +312,63 @@
   }
   .modal.show .modal-dialog { transform: translateY(0) scale(1); }
 
+  .progress-bar-wrapper {
+    position: fixed;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .progress-track {
+    width: 200px;
+    height: 4px;
+    background: rgba(140, 130, 114, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #8C8272;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-label {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8C8272;
+    white-space: nowrap;
+  }
+
+  .btn-complete {
+    background: #1C1C1A;
+    border: 1px solid #1C1C1A;
+    color: #FAFAF8;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+
+    &:hover { background: #2E2E2B; }
+
+    &.btn-completed {
+      background: transparent;
+      border: 1px solid #34c759;
+      color: #34c759;
+      cursor: default;
+    }
+  }
+
   .export-btn {
     position: fixed;
     top: 2rem;

@@ -15,6 +15,15 @@
     <canvas id="spiral-canvas"></canvas>
   </div>
 
+  <% done_count = steps.count(&:done) %>
+  <% progress = steps.any? ? (done_count * 100.0 / steps.size).round : 0 %>
+  <div class="progress-bar-wrapper" id="progress-bar-wrapper">
+    <div class="progress-track">
+      <div class="progress-fill" style="width: <%= progress %>%"></div>
+    </div>
+    <span class="progress-label"><%= done_count %>/<%= steps.size %> steps</span>
+  </div>
+
   <% steps.each do |step| %>
     <div class="modal fade" id="stepModal-<%= step.id %>" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -51,12 +60,50 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer justify-content-start">
+          <div class="modal-footer justify-content-between">
             <button type="button" class="btn-gold" data-bs-dismiss="modal">Close</button>
+            <% unless step.done %>
+              <button type="button" class="btn-complete" data-step-id="<%= step.id %>">
+                <i class="fa-solid fa-check"></i> Mark as completed
+              </button>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   <% end %>
+
+  <script>
+    document.querySelectorAll('.btn-complete').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var stepId = this.dataset.stepId;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Completed';
+        btn.classList.add('btn-completed');
+
+        fetch('/steps/' + stepId + '/mark_step_as_done', {
+          method: 'PATCH',
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+          }
+        }).then(function(r) { return r.json(); }).then(function(data) {
+          var fill = document.querySelector('.progress-fill');
+          var label = document.querySelector('.progress-label');
+          if (fill) fill.style.width = data.progress + '%';
+          if (label) label.textContent = data.done_count + '/' + data.total_count + ' steps';
+
+          var modal = btn.closest('.modal');
+          if (modal) {
+            var status = modal.querySelector('.fib-status');
+            if (status) {
+              var span = status.querySelector('.status-pending');
+              if (span) { span.className = 'status-done'; span.innerHTML = '&#10003; Completed'; }
+            }
+          }
+        });
+      });
+    });
+  </script>
   <% end %>
 </div>

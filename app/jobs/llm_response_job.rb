@@ -71,6 +71,8 @@ class LlmResponseJob < ApplicationJob
       )
     end
 
+    objective.update!(status: :in_progress) if objective.in_creation?
+
     Turbo::StreamsChannel.broadcast_replace_to(
       objective,
       target: "spiral-section",
